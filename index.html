@@ -163,6 +163,8 @@
       -webkit-justify-content: space-between;
       justify-content: space-between;
       margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
     .logo-container {
       display: -webkit-box;
@@ -187,6 +189,8 @@
       -webkit-justify-content: center;
       justify-content: center;
       margin-right: 12px;
+      -webkit-shrink: 0;
+      flex-shrink: 0;
     }
     .logo-icon svg {
       width: 22px;
@@ -203,6 +207,15 @@
       font-size: 12px;
       color: #94a3b8;
     }
+    .header-actions {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      gap: 8px;
+    }
     .badge-count {
       background-color: #1e293b;
       border: 1px solid #334155;
@@ -211,6 +224,27 @@
       font-weight: 600;
       padding: 6px 12px;
       border-radius: 20px;
+    }
+    .btn-view-list {
+      background-color: #007aff;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-view-list:active {
+      background-color: #0056b3;
+    }
+    .btn-view-list .badge-list-count {
+      background-color: rgba(255,255,255,0.25);
+      border-radius: 12px;
+      padding: 0 8px;
+      margin-left: 4px;
+      font-size: 11px;
     }
 
     /* Search Box */
@@ -419,6 +453,32 @@
       font-weight: bold;
       font-size: 15px;
       color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 40%;
+    }
+    .modal-nav-right {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-add-all {
+      background-color: #22c55e;
+      color: #ffffff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-add-all:active {
+      background-color: #16a34a;
     }
 
     /* Gallery Slider */
@@ -493,11 +553,312 @@
       z-index: 10;
     }
 
+    .cv-footer {
+      margin-top: 8px;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-box-pack: justify;
+      -webkit-justify-content: space-between;
+      justify-content: space-between;
+    }
+    .cv-info {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      flex: 1;
+      min-width: 0;
+    }
+    .cv-info-name {
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cv-info-detail {
+      color: #94a3b8;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .btn-add-cv {
+      background-color: #334155;
+      color: #94a3b8;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      padding: 4px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      margin-left: 8px;
+      -webkit-shrink: 0;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .btn-add-cv:active {
+      background-color: #475569;
+    }
+    .btn-add-cv.added {
+      background-color: #22c55e;
+      border-color: #22c55e;
+      color: #ffffff;
+    }
+
     .img-error-box {
       color: #94a3b8;
       font-size: 13px;
       text-align: center;
       padding: 20px;
+    }
+
+    /* ================= LIST MODAL ================= */
+    .list-modal-content {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+    .list-item {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-box-pack: justify;
+      -webkit-justify-content: space-between;
+      justify-content: space-between;
+    }
+    .list-item-left {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      flex: 1;
+      min-width: 0;
+    }
+    .list-item-name {
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .list-item-sub {
+      color: #94a3b8;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .btn-remove-item {
+      background-color: #ef4444;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      -webkit-shrink: 0;
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+    .btn-remove-item:active {
+      background-color: #dc2626;
+    }
+    .list-empty {
+      text-align: center;
+      color: #94a3b8;
+      padding: 40px 16px;
+      font-size: 15px;
+    }
+    .list-actions {
+      padding: 16px;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      gap: 10px;
+      border-top: 1px solid #1e293b;
+    }
+    .list-actions .btn-send {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      flex: 1;
+      background-color: #22c55e;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .list-actions .btn-send:active {
+      background-color: #16a34a;
+    }
+    .list-actions .btn-clear {
+      background-color: #334155;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .list-actions .btn-clear:active {
+      background-color: #475569;
+    }
+
+    /* ================= PHONE INPUT MODAL ================= */
+    .phone-modal-content {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      flex: 1;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .phone-box {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 20px;
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+    .phone-box .icon-big {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background-color: rgba(0, 122, 255, 0.15);
+      border: 1px solid rgba(0, 122, 255, 0.3);
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      margin: 0 auto 16px auto;
+    }
+    .phone-box .icon-big svg {
+      width: 28px;
+      height: 28px;
+      fill: #007aff;
+    }
+    .phone-box h3 {
+      color: #ffffff;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    .phone-box p {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+    .phone-box input {
+      width: 100%;
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 16px;
+      color: #ffffff;
+      outline: none;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .phone-box input:focus {
+      border-color: #007aff;
+    }
+    .phone-box .btn-submit-phone {
+      width: 100%;
+      background-color: #007aff;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .phone-box .btn-submit-phone:active {
+      background-color: #0056b3;
+    }
+    .phone-box .btn-close-phone {
+      background-color: transparent;
+      color: #94a3b8;
+      border: none;
+      font-size: 13px;
+      margin-top: 12px;
+      cursor: pointer;
+    }
+    .phone-box .btn-close-phone:active {
+      color: #ffffff;
+    }
+    .phone-success {
+      color: #22c55e;
+      font-size: 14px;
+      margin-top: 12px;
+      display: none;
+    }
+
+    /* ================= TOAST NOTIFICATION ================= */
+    .toast-notification {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      transform: translateX(-50%);
+      background-color: #22c55e;
+      color: #ffffff;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
+      z-index: 99999;
+      font-weight: bold;
+      font-size: 15px;
+      max-width: 90%;
+      text-align: center;
+      -webkit-transition: opacity 0.3s ease, -webkit-transform 0.3s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      opacity: 0;
+      -webkit-transform: translateX(-50%) translateY(20px);
+      transform: translateX(-50%) translateY(20px);
+      pointer-events: none;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .toast-notification.show {
+      opacity: 1;
+      -webkit-transform: translateX(-50%) translateY(0);
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+    .toast-notification.error {
+      background-color: #ef4444;
     }
 
     /* Utility */
@@ -534,6 +895,11 @@
     </div>
   </div>
 
+  <!-- ================= TOAST NOTIFICATION ================= -->
+  <div id="toastNotification" class="toast-notification">
+    <span id="toastMessage"></span>
+  </div>
+
   <!-- ================= HEADER ================= -->
   <div class="header-bar">
     <div class="header-inner">
@@ -547,8 +913,13 @@
             <div class="title-sub">Candidate CV Viewer Portal</div>
           </div>
         </div>
-        <div id="totalBadge" class="badge-count hidden">
-          <span id="totalCount">0</span> CVs
+        <div class="header-actions">
+          <div id="totalBadge" class="badge-count hidden">
+            <span id="totalCount">0</span> CVs
+          </div>
+          <button onclick="openListModal()" class="btn-view-list">
+            📋 List <span id="listCountBadge" class="badge-list-count">0</span>
+          </button>
         </div>
       </div>
 
@@ -615,7 +986,10 @@
     <div class="modal-nav">
       <button onclick="closeModal()" class="btn-back">← Back</button>
       <div id="modalTitle" class="modal-title"></div>
-      <div id="modalBadge" class="num-pill">0</div>
+      <div class="modal-nav-right">
+        <button onclick="addAllFromFolder()" class="btn-add-all">+ Add All</button>
+        <div id="modalBadge" class="num-pill">0</div>
+      </div>
     </div>
 
     <div id="slidesViewport" class="gallery-container">
@@ -623,8 +997,47 @@
     </div>
   </div>
 
-  <!-- ================= JAVASCRIPT FOR LOGIN & SYSTEM ================= -->
+  <!-- ================= LIST MODAL ================= -->
+  <div id="listModal" class="modal-overlay">
+    <div class="modal-nav">
+      <button onclick="closeListModal()" class="btn-back">← Back</button>
+      <div class="modal-title">📋 Added CVs</div>
+      <div id="listModalBadge" class="num-pill">0</div>
+    </div>
+    <div id="listModalBody" class="list-modal-content">
+      <!-- List items go here -->
+    </div>
+    <div class="list-actions">
+      <button onclick="clearAllList()" class="btn-clear">Clear All</button>
+      <button onclick="openPhoneModal()" class="btn-send">📤 Send CVs</button>
+    </div>
+  </div>
+
+  <!-- ================= PHONE NUMBER MODAL ================= -->
+  <div id="phoneModal" class="modal-overlay">
+    <div class="modal-nav">
+      <button onclick="closePhoneModal()" class="btn-back">← Back</button>
+      <div class="modal-title">📤 Share CVs</div>
+      <div style="width:50px;"></div>
+    </div>
+    <div class="phone-modal-content">
+      <div class="phone-box">
+        <div class="icon-big">
+          <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        </div>
+        <h3>Enter Phone Number</h3>
+        <p>We'll send the selected CVs to your WhatsApp within 30 minutes</p>
+        <input type="text" id="phoneInput" placeholder="+974 1234 5678" maxlength="20" />
+        <button onclick="submitPhone()" class="btn-submit-phone">📤 Send Now</button>
+        <div id="phoneSuccess" class="phone-success">✅ Your Ordered CV's will send to your WhatsApp within 30 minutes</div>
+        <button onclick="closePhoneModal()" class="btn-close-phone">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT ================= -->
   <script>
+    // ========== LOGIN ==========
     var CORRECT_PASSWORD = "1978";
 
     function handleLogin(e) {
@@ -653,9 +1066,38 @@
       }
     }
 
+    // ========== TOAST NOTIFICATION ==========
+    function showToast(message, isError) {
+      var toast = document.getElementById("toastNotification");
+      var msg = document.getElementById("toastMessage");
+      
+      msg.innerText = message;
+      toast.className = "toast-notification";
+      if (isError) {
+        toast.classList.add("error");
+      }
+      
+      // Clear any existing timeout
+      if (window.toastTimeout) {
+        clearTimeout(window.toastTimeout);
+      }
+      
+      // Show with slight delay for animation
+      setTimeout(function() {
+        toast.classList.add("show");
+      }, 50);
+      
+      // Auto hide after 4 seconds
+      window.toastTimeout = setTimeout(function() {
+        toast.classList.remove("show");
+      }, 4000);
+    }
+
+    // ========== SUPABASE CONFIG ==========
     var SUPABASE_URL = "https://ksyxmoqzcghszrhlpaxh.supabase.co"; 
     var SUPABASE_KEY = "sb_publishable_U289_qf4pkGHp-G1C4kX5w_2bztcmOg";
 
+    // ========== DATA ==========
     var JOB_LABELS = {
       "House Maid": "Housemaid",
       "Baby sitting": "Baby Sitter",
@@ -670,8 +1112,10 @@
     var SVG_GLOBE = '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>';
 
     var talents = [];
+    var selectedCVs = [];
+    var currentFolderTalents = [];
 
-    // Safe Data Loader with Cross-Origin Compatibility
+    // ========== INIT DATA ==========
     function initData() {
       var xhr = new XMLHttpRequest();
       var reqUrl = SUPABASE_URL + "/rest/v1/talents?select=*&order=created_at.desc";
@@ -726,6 +1170,7 @@
       return list.sort();
     }
 
+    // ========== FILTER FOLDERS ==========
     function filterFolders() {
       var q = document.getElementById("searchInput").value.toLowerCase().trim();
 
@@ -823,8 +1268,9 @@
       }
     }
 
-    // Modal with Safe Image Loader
+    // ========== OPEN MODAL ==========
     function openModal(folder) {
+      currentFolderTalents = folder.talents;
       document.getElementById("modalTitle").innerText = folder.label;
       document.getElementById("modalBadge").innerText = folder.talents.length + " CVs";
       var vp = document.getElementById("slidesViewport");
@@ -835,7 +1281,6 @@
       } else {
         for (var i = 0; i < folder.talents.length; i++) {
           var c = folder.talents[i];
-          
           var cvUrl = c.cv || c.cv_url || c.cvUrl || "";
 
           var slide = document.createElement("div");
@@ -856,17 +1301,27 @@
           var expText = c.experience || c.exp || 'N/A';
           var countryText = c.country || 'N/A';
 
+          var isAdded = selectedCVs.some(function(item) {
+            return item.id === c.id;
+          });
+
           slide.innerHTML = 
             '<div class="cv-image-frame">' +
               imgHtml +
               '<span class="tag-counter">' + (i + 1) + ' / ' + folder.talents.length + '</span>' +
               linkHtml +
             '</div>' +
-            '<div style="margin-top:8px;">' +
-              '<div style="color:#ffffff; font-weight:bold; font-size:14px;">' + nameText + '</div>' +
-              '<div style="color:#94a3b8; font-size:12px; margin-top:2px;">' + jobText + ' • Exp: ' + expText + ' • ' + countryText + '</div>' +
+            '<div class="cv-footer">' +
+              '<div class="cv-info">' +
+                '<div class="cv-info-name">' + nameText + '</div>' +
+                '<div class="cv-info-detail">' + jobText + ' • Exp: ' + expText + ' • ' + countryText + '</div>' +
+              '</div>' +
+              '<button class="btn-add-cv' + (isAdded ? ' added' : '') + '" onclick="toggleAddCV(' + i + ', this)">' + 
+                (isAdded ? '✓ Added' : '+ Add') +
+              '</button>' +
             '</div>';
 
+          slide.dataset.index = i;
           vp.appendChild(slide);
         }
       }
@@ -880,6 +1335,223 @@
       document.getElementById("cvModal").style.display = "none";
     }
 
+    // ========== ADD / REMOVE CV ==========
+    function toggleAddCV(index, btn) {
+      var cv = currentFolderTalents[index];
+      if (!cv) return;
+
+      var existingIndex = selectedCVs.findIndex(function(item) {
+        return item.id === cv.id;
+      });
+
+      if (existingIndex >= 0) {
+        selectedCVs.splice(existingIndex, 1);
+        btn.className = "btn-add-cv";
+        btn.innerText = "+ Add";
+      } else {
+        selectedCVs.push(cv);
+        btn.className = "btn-add-cv added";
+        btn.innerText = "✓ Added";
+      }
+
+      updateListBadge();
+    }
+
+    function addAllFromFolder() {
+      if (currentFolderTalents.length === 0) return;
+
+      var addedCount = 0;
+      for (var i = 0; i < currentFolderTalents.length; i++) {
+        var cv = currentFolderTalents[i];
+        var existingIndex = selectedCVs.findIndex(function(item) {
+          return item.id === cv.id;
+        });
+        if (existingIndex === -1) {
+          selectedCVs.push(cv);
+          addedCount++;
+        }
+      }
+
+      var allBtns = document.querySelectorAll("#slidesViewport .btn-add-cv");
+      for (var j = 0; j < allBtns.length; j++) {
+        var btn = allBtns[j];
+        var slide = btn.closest(".cv-slide-box");
+        if (slide) {
+          var idx = parseInt(slide.dataset.index);
+          if (!isNaN(idx)) {
+            var cvItem = currentFolderTalents[idx];
+            var isAdded = selectedCVs.some(function(item) {
+              return item.id === cvItem.id;
+            });
+            if (isAdded) {
+              btn.className = "btn-add-cv added";
+              btn.innerText = "✓ Added";
+            }
+          }
+        }
+      }
+
+      updateListBadge();
+      document.getElementById("modalBadge").innerText = currentFolderTalents.length + " CVs";
+    }
+
+    function updateListBadge() {
+      document.getElementById("listCountBadge").innerText = selectedCVs.length;
+    }
+
+    // ========== LIST MODAL ==========
+    function openListModal() {
+      renderListModal();
+      var modal = document.getElementById("listModal");
+      modal.style.display = "-webkit-flex";
+      modal.style.display = "flex";
+    }
+
+    function closeListModal() {
+      document.getElementById("listModal").style.display = "none";
+    }
+
+    function renderListModal() {
+      var body = document.getElementById("listModalBody");
+      var badge = document.getElementById("listModalBadge");
+      badge.innerText = selectedCVs.length;
+
+      if (selectedCVs.length === 0) {
+        body.innerHTML = '<div class="list-empty">📭 No CVs added yet.<br>Browse and tap "+ Add" on each CV.</div>';
+        return;
+      }
+
+      var html = "";
+      for (var i = 0; i < selectedCVs.length; i++) {
+        var c = selectedCVs[i];
+        var nameText = c.name || c.candidate_name || 'Unnamed Candidate';
+        var jobText = c.job || c.job_role || 'N/A';
+        html += 
+          '<div class="list-item">' +
+            '<div class="list-item-left">' +
+              '<div class="list-item-name">' + nameText + '</div>' +
+              '<div class="list-item-sub">' + jobText + '</div>' +
+            '</div>' +
+            '<button class="btn-remove-item" onclick="removeFromList(' + i + ')">✕</button>' +
+          '</div>';
+      }
+      body.innerHTML = html;
+    }
+
+    function removeFromList(index) {
+      selectedCVs.splice(index, 1);
+      renderListModal();
+      updateListBadge();
+    }
+
+    function clearAllList() {
+      if (selectedCVs.length === 0) return;
+      if (confirm("Clear all added CVs?")) {
+        selectedCVs = [];
+        renderListModal();
+        updateListBadge();
+      }
+    }
+
+    // ========== PHONE MODAL ==========
+    function openPhoneModal() {
+      if (selectedCVs.length === 0) {
+        showToast("Please add at least one CV to send.", true);
+        return;
+      }
+      document.getElementById("phoneInput").value = "";
+      document.getElementById("phoneSuccess").style.display = "none";
+      var modal = document.getElementById("phoneModal");
+      modal.style.display = "-webkit-flex";
+      modal.style.display = "flex";
+    }
+
+    function closePhoneModal() {
+      document.getElementById("phoneModal").style.display = "none";
+    }
+
+    // ========== SEND TO GOOGLE SHEETS ==========
+    function sendToGoogleSheets(data) {
+      var url = "https://script.google.com/macros/s/AKfycbxuvPgWbZR_m4Xg_uHpQ1RxQQQQ8kmJZAv6_5zRHLZwb8wWHnxXUvwm6OPH-M_bK8sqnA/exec";
+      
+      fetch(url, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(function(res) {
+        console.log("✅ Data sent to Google Sheets:", data);
+      })
+      .catch(function(err) {
+        console.error("❌ Error sending to Google Sheets:", err);
+      });
+    }
+
+    // ========== SUBMIT PHONE (UPDATED) ==========
+    function submitPhone() {
+      var phone = document.getElementById("phoneInput").value.trim();
+      if (phone === "") {
+        showToast("Please enter a phone number.", true);
+        return;
+      }
+
+      // Prepare data
+      var data = {
+        phone: phone,
+        cvs: selectedCVs.map(function(c) {
+          return {
+            id: c.id,
+            name: c.name || c.candidate_name || "Unnamed",
+            cv: c.cv || c.cv_url || c.cvUrl || ""
+          };
+        }),
+        timestamp: new Date().toISOString()
+      };
+
+      // Send to Google Sheets
+      sendToGoogleSheets(data);
+
+      // Show success Toast Notification
+      showToast("✅ CVs Sent Successfully! List has been cleared.", false);
+
+      // **** CLEAR THE ADDED LIST COMPLETELY ****
+      selectedCVs = [];
+      
+      // Update the badge count in header
+      updateListBadge();
+      
+      // If List Modal is open, refresh it to show empty state
+      if (document.getElementById("listModal").style.display === "flex") {
+        renderListModal();
+      }
+      
+      // Close the phone modal
+      closePhoneModal();
+      
+      // Also reset any "Added" buttons in the CV viewer modal
+      var allBtns = document.querySelectorAll("#slidesViewport .btn-add-cv");
+      for (var j = 0; j < allBtns.length; j++) {
+        var btn = allBtns[j];
+        btn.className = "btn-add-cv";
+        btn.innerText = "+ Add";
+      }
+    }
+
+    // ========== KEYBOARD SHORTCUTS ==========
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") {
+        if (document.getElementById("phoneModal").style.display === "flex") {
+          closePhoneModal();
+        } else if (document.getElementById("listModal").style.display === "flex") {
+          closeListModal();
+        } else if (document.getElementById("cvModal").style.display === "flex") {
+          closeModal();
+        }
+      }
+    });
+
+    // ========== INIT ON LOAD ==========
     window.onload = checkAuth;
   </script>
 </body>
