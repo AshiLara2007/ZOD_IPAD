@@ -23,6 +23,121 @@
       -webkit-text-size-adjust: 100%;
     }
 
+    /* ================= LOGIN SCREEN STYLES ================= */
+    .login-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #0f172a;
+      z-index: 9999;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .login-card {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 20px;
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+    .login-icon-box {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background-color: rgba(0, 122, 255, 0.15);
+      border: 1px solid rgba(0, 122, 255, 0.3);
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      margin: 0 auto 20px auto;
+    }
+    .login-icon-box svg {
+      width: 30px;
+      height: 30px;
+      fill: #007aff;
+    }
+    .login-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+    .login-sub {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 24px;
+    }
+    .login-input-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+    .login-input {
+      width: 100%;
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 16px;
+      color: #ffffff;
+      outline: none;
+      text-align: center;
+      letter-spacing: 4px;
+      font-weight: bold;
+    }
+    .login-input:focus {
+      border-color: #007aff;
+    }
+    .login-btn {
+      width: 100%;
+      background-color: #007aff;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .login-btn:active {
+      background-color: #0056b3;
+    }
+    .login-error {
+      color: #f87171;
+      font-size: 12px;
+      margin-top: 12px;
+      display: none;
+    }
+    .shake {
+      -webkit-animation: shake 0.3s ease-in-out;
+      animation: shake 0.3s ease-in-out;
+    }
+    @-webkit-keyframes shake {
+      0%, 100% { -webkit-transform: translateX(0); }
+      20%, 60% { -webkit-transform: translateX(-8px); }
+      40%, 80% { -webkit-transform: translateX(8px); }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
     /* ================= HEADER STYLES ================= */
     .header-bar {
       position: -webkit-sticky;
@@ -392,6 +507,33 @@
 </head>
 <body>
 
+  <!-- ================= LOGIN OVERLAY ================= -->
+  <div id="loginOverlay" class="login-overlay">
+    <div id="loginCard" class="login-card">
+      <div class="login-icon-box">
+        <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+      </div>
+      <div class="login-title">Restricted Access</div>
+      <div class="login-sub">Enter passcode to access CV Portal</div>
+      
+      <form onsubmit="handleLogin(event)">
+        <div class="login-input-group">
+          <input 
+            type="password" 
+            id="passInput" 
+            class="login-input" 
+            placeholder="••••" 
+            maxlength="10" 
+            autofocus 
+          />
+        </div>
+        <button type="submit" class="login-btn">Unlock Portal</button>
+      </form>
+      
+      <div id="loginError" class="login-error">Incorrect passcode. Try again.</div>
+    </div>
+  </div>
+
   <!-- ================= HEADER ================= -->
   <div class="header-bar">
     <div class="header-inner">
@@ -481,8 +623,36 @@
     </div>
   </div>
 
-  <!-- ================= JAVASCRIPT FOR OLD IPAD CV FIX ================= -->
+  <!-- ================= JAVASCRIPT FOR LOGIN & SYSTEM ================= -->
   <script>
+    var CORRECT_PASSWORD = "1978";
+
+    function handleLogin(e) {
+      if (e) e.preventDefault();
+      var input = document.getElementById("passInput").value;
+      var err = document.getElementById("loginError");
+      var card = document.getElementById("loginCard");
+
+      if (input === CORRECT_PASSWORD) {
+        sessionStorage.setItem("zod_unlocked", "true");
+        document.getElementById("loginOverlay").style.display = "none";
+        initData();
+      } else {
+        err.style.display = "block";
+        card.className = "login-card shake";
+        setTimeout(function() {
+          card.className = "login-card";
+        }, 300);
+      }
+    }
+
+    function checkAuth() {
+      if (sessionStorage.getItem("zod_unlocked") === "true") {
+        document.getElementById("loginOverlay").style.display = "none";
+        initData();
+      }
+    }
+
     var SUPABASE_URL = "https://ksyxmoqzcghszrhlpaxh.supabase.co"; 
     var SUPABASE_KEY = "sb_publishable_U289_qf4pkGHp-G1C4kX5w_2bztcmOg";
 
@@ -666,7 +836,6 @@
         for (var i = 0; i < folder.talents.length; i++) {
           var c = folder.talents[i];
           
-          // Fallback for CV URL column naming (cv / cv_url / cvUrl)
           var cvUrl = c.cv || c.cv_url || c.cvUrl || "";
 
           var slide = document.createElement("div");
@@ -676,7 +845,7 @@
           var linkHtml = "";
 
           if (cvUrl !== "") {
-            imgHtml = '<img src="' + cvUrl + '" alt="CV" onerror="this.onerror=null; this.parentNode.innerHTML=\'<div class=\\\’img-error-box\\\’>Unable to display image preview on Old iPad Safari.<br><br><a href=\\\'' + cvUrl + '\\\’ target=\\\'_blank\\\’ style=\\\’color:#007aff; font-weight:bold;\\\’>Click here to view original CV</a></div>\';" />';
+            imgHtml = '<img src="' + cvUrl + '" alt="CV" onerror="this.onerror=null; this.parentNode.innerHTML=\'<div class=\\\’img-error-box\\\’>Unable to display image preview.<br><br><a href=\\\'' + cvUrl + '\\\’ target=\\\'_blank\\\’ style=\\\’color:#007aff; font-weight:bold;\\\’>Click here to view original CV</a></div>\';" />';
             linkHtml = '<a href="' + cvUrl + '" target="_blank" class="btn-open-link">Open Original</a>';
           } else {
             imgHtml = '<div class="img-error-box">No CV Image URL attached</div>';
@@ -711,7 +880,7 @@
       document.getElementById("cvModal").style.display = "none";
     }
 
-    window.onload = initData;
+    window.onload = checkAuth;
   </script>
 </body>
 </html>
