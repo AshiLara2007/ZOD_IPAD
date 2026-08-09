@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <link rel="shortcut icon" href="https://github.com/AshiLara2007/ZOD_IPAD/blob/main/logo.jpeg?raw=true" type="image/x-icon">
   <title>ZOD Manpower CV System</title>
 
   <style>
@@ -483,16 +482,16 @@
       background-color: #16a34a;
     }
 
-    /* ====== FILTER BAR STYLES ====== */
+    /* ====== FILTER BAR STYLES (UPDATED - RESPONSIVE) ====== */
     .filter-bar {
       background-color: #1e293b;
       border-bottom: 1px solid #334155;
-      padding: 10px 16px;
+      padding: 8px 12px;
       display: -webkit-box;
       display: -webkit-flex;
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
       -webkit-box-align: center;
       -webkit-align-items: center;
       align-items: center;
@@ -501,20 +500,21 @@
     .filter-select {
       background-color: #0f172a;
       border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 6px 10px;
-      font-size: 12px;
+      border-radius: 6px;
+      padding: 5px 24px 5px 8px;
+      font-size: 11px;
       color: #ffffff;
       outline: none;
       cursor: pointer;
-      min-width: 100px;
+      min-width: 60px;
+      max-width: 140px;
       -webkit-appearance: none;
       appearance: none;
       background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
       background-repeat: no-repeat;
-      background-position: right 8px top 50%;
-      background-size: 10px auto;
-      padding-right: 28px;
+      background-position: right 6px top 50%;
+      background-size: 8px auto;
+      flex: 1 0 auto;
     }
     .filter-select:focus {
       border-color: #007aff;
@@ -527,21 +527,24 @@
       background-color: #334155;
       color: #ffffff;
       border: none;
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 6px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .btn-clear-filters:active {
       background-color: #475569;
     }
     .filter-count {
       color: #94a3b8;
-      font-size: 12px;
+      font-size: 11px;
       margin-left: auto;
       white-space: nowrap;
+      flex-shrink: 0;
+      padding-left: 6px;
     }
 
     /* Gallery Container */
@@ -1045,7 +1048,7 @@
     </div>
   </div>
 
-  <!-- ================= CV VIEWER MODAL (WITH FILTERS) ================= -->
+  <!-- ================= CV VIEWER MODAL (UPDATED FILTERS) ================= -->
   <div id="cvModal" class="modal-overlay">
     <div class="modal-nav">
       <button onclick="closeModal()" class="btn-back">← Back</button>
@@ -1056,28 +1059,31 @@
       </div>
     </div>
 
-    <!-- ===== FILTER BAR ===== -->
+    <!-- ===== FILTER BAR (UPDATED) ===== -->
     <div class="filter-bar">
+      <select id="filterJob" class="filter-select" onchange="applyModalFilters()">
+        <option value="">💼 All Jobs</option>
+      </select>
       <select id="filterCountry" class="filter-select" onchange="applyModalFilters()">
-        <option value="">🌍 All Countries</option>
+        <option value="">🌍 Countries</option>
       </select>
       <select id="filterReligion" class="filter-select" onchange="applyModalFilters()">
-        <option value="">⛪ All Religions</option>
+        <option value="">⛪ Religion</option>
       </select>
       <select id="filterGender" class="filter-select" onchange="applyModalFilters()">
-        <option value="">👤 All Genders</option>
+        <option value="">👤 Gender</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
       </select>
       <select id="filterExperience" class="filter-select" onchange="applyModalFilters()">
-        <option value="">📅 All Experience</option>
-        <option value="0-2">0 - 2 Years</option>
-        <option value="2-5">2 - 5 Years</option>
+        <option value="">📅 Experience</option>
+        <option value="0">0 (First Timer)</option>
+        <option value="1-5">1 - 5 Years</option>
         <option value="5-10">5 - 10 Years</option>
         <option value="10+">10+ Years</option>
       </select>
       <select id="filterSalary" class="filter-select" onchange="applyModalFilters()">
-        <option value="">💰 All Salaries</option>
+        <option value="">💰 Salary</option>
         <option value="0-1000">Below 1000</option>
         <option value="1000-2000">1000 - 2000</option>
         <option value="2000-3000">2000 - 3000</option>
@@ -1189,8 +1195,8 @@
     var SUPABASE_URL = "https://ksyxmoqzcghszrhlpaxh.supabase.co"; 
     var SUPABASE_KEY = "sb_publishable_U289_qf4pkGHp-G1C4kX5w_2bztcmOg";
 
-    // ========== DATA ==========
-    // 🔥 UPDATED: Added "Nannie" to map to "Baby Sitter"
+    // ========== DATA LABELS (NORMALIZATION) ==========
+    // Job Normalization
     var JOB_LABELS = {
       "House Maid": "Housemaid",
       "Housemaid": "Housemaid",
@@ -1198,11 +1204,25 @@
       "Babysitter": "Baby Sitter",
       "Baby Sitter": "Baby Sitter",
       "Nanny": "Baby Sitter",
-      "Nannie": "Baby Sitter",  // <--- NEW ENTRY
+      "Nannie": "Baby Sitter",
       "Domestic Worker": "Domestic Worker",
       "Driver": "Driver",
       "Cook": "Cook",
       "Nurse": "Nurse"
+    };
+
+    // Religion Normalization (Based on user's list)
+    var RELIGION_LABELS = {
+      "CATHOLIC": "Catholic",
+      "R.CATHOLIC": "Catholic",
+      "CHRISTIAN": "Christian",
+      "CHRSTIN": "Christian",
+      "MUSLIM": "Muslim",
+      "Muslim": "Muslim",
+      "NON MUSLIM": "Non-Muslim",
+      "NON- MUSLIM": "Non-Muslim",
+      "NON-MUSLIM": "Non-Muslim",
+      "NON- ISLAM": "Non-Muslim"
     };
 
     var SVG_FOLDER = '<svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>';
@@ -1256,19 +1276,16 @@
       document.getElementById("errorState").className = "status-msg";
     }
 
-    function getUniqueKeys(arr, key) {
-      var map = {}, list = [];
-      for(var i = 0; i < arr.length; i++) {
-        var v = arr[i][key];
-        if(v && !map[v]) {
-          map[v] = true;
-          list.push(v);
-        }
-      }
-      return list.sort();
+    // ========== HELPER: Normalize Functions ==========
+    function normalizeJob(raw) {
+      return JOB_LABELS[raw] || raw;
     }
 
-    // ===================== FILTER FOLDERS (MAIN DASHBOARD) =====================
+    function normalizeReligion(raw) {
+      return RELIGION_LABELS[raw] || raw;
+    }
+
+    // ========== FILTER FOLDERS (MAIN DASHBOARD) ==========
     function filterFolders() {
       var q = document.getElementById("searchInput").value.toLowerCase().trim();
 
@@ -1291,12 +1308,12 @@
         }
       ];
 
-      // JOBS - Normalized (Now includes "Nannie")
+      // Jobs Normalized
       var jobMap = {};
       for (var i = 0; i < talents.length; i++) {
         var job = talents[i].job;
         if (job) {
-          var normalized = JOB_LABELS[job] || job;
+          var normalized = normalizeJob(job);
           if (!jobMap[normalized]) {
             jobMap[normalized] = [];
           }
@@ -1315,7 +1332,17 @@
         });
       }
 
-      var countries = getUniqueKeys(talents, 'country').map(function(c) {
+      var countries = [];
+      var countryMap = {};
+      for (var c = 0; c < talents.length; c++) {
+        var country = talents[c].country;
+        if (country && !countryMap[country]) {
+          countryMap[country] = true;
+          countries.push(country);
+        }
+      }
+      countries.sort();
+      var countryFolders = countries.map(function(c) {
         return {
           label: c,
           icon: SVG_GLOBE,
@@ -1326,7 +1353,7 @@
       var sections = [
         { id: "housemaid", data: housemaids },
         { id: "jobs", data: jobs },
-        { id: "countries", data: countries }
+        { id: "countries", data: countryFolders }
       ];
 
       var totalFound = 0;
@@ -1382,14 +1409,16 @@
       }
     }
 
-    // ========== MODAL RENDERING & FILTERS ==========
+    // ========== MODAL RENDERING & FILTERS (UPDATED) ==========
     function openModal(folder) {
       currentFolderTalents = folder.talents;
       document.getElementById("modalTitle").innerText = folder.label;
       document.getElementById("modalBadge").innerText = folder.talents.length + " CVs";
 
-      populateFilterOptions('filterCountry', 'country');
-      populateFilterOptions('filterReligion', 'religion');
+      // Populate dropdowns with normalized values
+      populateFilterOptions('filterJob', 'job', normalizeJob);
+      populateFilterOptions('filterCountry', 'country', function(v) { return v; });
+      populateFilterOptions('filterReligion', 'religion', normalizeReligion);
       
       document.getElementById('filterGender').value = '';
       document.getElementById('filterExperience').value = '';
@@ -1402,16 +1431,20 @@
       modal.style.display = "flex";
     }
 
-    function populateFilterOptions(selectId, key) {
+    function populateFilterOptions(selectId, key, normalizeFn) {
       var select = document.getElementById(selectId);
       var currentVal = select.value;
-      select.innerHTML = '<option value="">All ' + key.charAt(0).toUpperCase() + key.slice(1) + 's</option>';
+      var defaultLabel = select.options[0] ? select.options[0].text : 'All';
+      select.innerHTML = '<option value="">' + defaultLabel + '</option>';
       
       var uniqueValues = {};
       for (var i = 0; i < currentFolderTalents.length; i++) {
-        var val = currentFolderTalents[i][key];
-        if (val && typeof val === 'string' && val.trim() !== '') {
-          uniqueValues[val.trim()] = true;
+        var rawVal = currentFolderTalents[i][key];
+        if (rawVal && typeof rawVal === 'string' && rawVal.trim() !== '') {
+          var normVal = normalizeFn ? normalizeFn(rawVal.trim()) : rawVal.trim();
+          if (normVal) {
+            uniqueValues[normVal] = true;
+          }
         }
       }
       var sorted = Object.keys(uniqueValues).sort();
@@ -1421,12 +1454,14 @@
         option.textContent = sorted[j];
         select.appendChild(option);
       }
+      // Restore previous value if possible
       if (currentVal) {
         select.value = currentVal;
       }
     }
 
     function applyModalFilters() {
+      var job = document.getElementById('filterJob').value;
       var country = document.getElementById('filterCountry').value;
       var religion = document.getElementById('filterReligion').value;
       var gender = document.getElementById('filterGender').value;
@@ -1434,25 +1469,43 @@
       var salaryRange = document.getElementById('filterSalary').value;
 
       var filtered = currentFolderTalents.filter(function(c) {
+        // Job
+        if (job) {
+          var normJob = normalizeJob(c.job);
+          if (normJob !== job) return false;
+        }
+        // Country
         if (country && (c.country || '').trim() !== country) return false;
-        if (religion && (c.religion || '').trim() !== religion) return false;
+        // Religion
+        if (religion) {
+          var normReligion = normalizeReligion(c.religion);
+          if (normReligion !== religion) return false;
+        }
+        // Gender
         if (gender) {
           var cGender = c.gender || c.sex || '';
           if (cGender.trim() !== gender) return false;
         }
+        // Experience (UPDATED)
         if (expRange) {
           var expVal = c.experience || c.exp || '0';
           var num = parseFloat(expVal);
           if (isNaN(num)) num = 0;
-          var parts = expRange.split('-');
-          if (expRange === '10+') {
-            if (num < 10) return false;
+          
+          if (expRange === '0') {
+            if (num !== 0) return false;
           } else {
-            var min = parseFloat(parts[0]);
-            var max = parseFloat(parts[1]);
-            if (num < min || num > max) return false;
+            var parts = expRange.split('-');
+            if (expRange === '10+') {
+              if (num < 10) return false;
+            } else {
+              var min = parseFloat(parts[0]);
+              var max = parseFloat(parts[1]);
+              if (num < min || num > max) return false;
+            }
           }
         }
+        // Salary
         if (salaryRange) {
           var salVal = c.salary || c.expected_salary || '0';
           var salNum = parseFloat(salVal);
@@ -1474,6 +1527,7 @@
     }
 
     function clearModalFilters() {
+      document.getElementById('filterJob').value = '';
       document.getElementById('filterCountry').value = '';
       document.getElementById('filterReligion').value = '';
       document.getElementById('filterGender').value = '';
