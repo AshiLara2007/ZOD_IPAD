@@ -412,7 +412,7 @@
       border-radius: 12px;
     }
 
-    /* ================= MODAL VIEWER ================= */
+    /* ================= MODAL VIEWER (FIXED FOR iPAD) ================= */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -423,6 +423,8 @@
       -webkit-box-direction: normal;
       -webkit-flex-direction: column;
       flex-direction: column;
+      height: 100%;
+      width: 100%;
     }
     .modal-nav {
       height: 56px;
@@ -482,7 +484,7 @@
       background-color: #16a34a;
     }
 
-    /* ====== FILTER BAR STYLES (UPDATED - RESPONSIVE) ====== */
+    /* ====== FILTER BAR STYLES (RESPONSIVE) ====== */
     .filter-bar {
       background-color: #1e293b;
       border-bottom: 1px solid #334155;
@@ -547,7 +549,7 @@
       padding-left: 6px;
     }
 
-    /* Gallery Container */
+    /* ====== GALLERY CONTAINER - FIXED FOR iPAD ====== */
     .gallery-container {
       -webkit-box-flex: 1;
       -webkit-flex: 1;
@@ -555,24 +557,31 @@
       overflow-x: auto;
       overflow-y: hidden;
       -webkit-overflow-scrolling: touch;
-      padding: 16px;
+      padding: 12px;
       white-space: nowrap;
       font-size: 0;
+      min-height: 0;
+      height: auto;
     }
+
+    /* ====== CV SLIDE BOX - COMPLETELY REDESIGNED ====== */
     .cv-slide-box {
       display: inline-block;
       vertical-align: top;
-      width: 85%;
+      width: 90%;
       max-width: 600px;
       height: 100%;
-      margin-right: 16px;
+      margin-right: 14px;
       white-space: normal;
       font-size: 14px;
+      position: relative;
     }
+
+    /* Image Frame - Takes remaining space */
     .cv-image-frame {
       position: relative;
       width: 100%;
-      height: calc(100% - 50px);
+      height: calc(100% - 65px); /* Leave space for footer */
       background-color: #000000;
       border-radius: 12px;
       border: 1px solid #334155;
@@ -587,6 +596,7 @@
       -webkit-box-pack: center;
       -webkit-justify-content: center;
       justify-content: center;
+      min-height: 200px;
     }
     .cv-image-frame img {
       max-width: 100%;
@@ -595,6 +605,7 @@
       height: auto;
       display: block;
       margin: 0 auto;
+      object-fit: contain;
     }
     .tag-counter {
       position: absolute;
@@ -619,6 +630,7 @@
       z-index: 10;
     }
 
+    /* Footer - Always visible at bottom */
     .cv-footer {
       margin-top: 8px;
       display: -webkit-box;
@@ -630,12 +642,17 @@
       -webkit-box-pack: justify;
       -webkit-justify-content: space-between;
       justify-content: space-between;
+      width: 100%;
+      flex-shrink: 0;
+      padding: 4px 0;
+      min-height: 50px;
     }
     .cv-info {
       -webkit-box-flex: 1;
       -webkit-flex: 1;
       flex: 1;
       min-width: 0;
+      padding-right: 8px;
     }
     .cv-info-name {
       color: #ffffff;
@@ -657,15 +674,16 @@
       color: #94a3b8;
       border: 1px solid #475569;
       border-radius: 8px;
-      padding: 4px 14px;
+      padding: 6px 16px;
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
-      margin-left: 8px;
       -webkit-shrink: 0;
       flex-shrink: 0;
       transition: all 0.2s;
+      min-width: 65px;
+      text-align: center;
     }
     .btn-add-cv:active {
       background-color: #475569;
@@ -1048,7 +1066,7 @@
     </div>
   </div>
 
-  <!-- ================= CV VIEWER MODAL (UPDATED FILTERS) ================= -->
+  <!-- ================= CV VIEWER MODAL ================= -->
   <div id="cvModal" class="modal-overlay">
     <div class="modal-nav">
       <button onclick="closeModal()" class="btn-back">← Back</button>
@@ -1059,7 +1077,7 @@
       </div>
     </div>
 
-    <!-- ===== FILTER BAR (UPDATED) ===== -->
+    <!-- FILTER BAR -->
     <div class="filter-bar">
       <select id="filterJob" class="filter-select" onchange="applyModalFilters()">
         <option value="">💼 All Jobs</option>
@@ -1195,8 +1213,7 @@
     var SUPABASE_URL = "https://ksyxmoqzcghszrhlpaxh.supabase.co"; 
     var SUPABASE_KEY = "sb_publishable_U289_qf4pkGHp-G1C4kX5w_2bztcmOg";
 
-    // ========== DATA LABELS (NORMALIZATION) ==========
-    // Job Normalization
+    // ========== DATA LABELS ==========
     var JOB_LABELS = {
       "House Maid": "Housemaid",
       "Housemaid": "Housemaid",
@@ -1211,7 +1228,6 @@
       "Nurse": "Nurse"
     };
 
-    // Religion Normalization (Based on user's list)
     var RELIGION_LABELS = {
       "CATHOLIC": "Catholic",
       "R.CATHOLIC": "Catholic",
@@ -1276,7 +1292,6 @@
       document.getElementById("errorState").className = "status-msg";
     }
 
-    // ========== HELPER: Normalize Functions ==========
     function normalizeJob(raw) {
       return JOB_LABELS[raw] || raw;
     }
@@ -1308,7 +1323,6 @@
         }
       ];
 
-      // Jobs Normalized
       var jobMap = {};
       for (var i = 0; i < talents.length; i++) {
         var job = talents[i].job;
@@ -1409,13 +1423,12 @@
       }
     }
 
-    // ========== MODAL RENDERING & FILTERS (UPDATED) ==========
+    // ========== MODAL RENDERING & FILTERS ==========
     function openModal(folder) {
       currentFolderTalents = folder.talents;
       document.getElementById("modalTitle").innerText = folder.label;
       document.getElementById("modalBadge").innerText = folder.talents.length + " CVs";
 
-      // Populate dropdowns with normalized values
       populateFilterOptions('filterJob', 'job', normalizeJob);
       populateFilterOptions('filterCountry', 'country', function(v) { return v; });
       populateFilterOptions('filterReligion', 'religion', normalizeReligion);
@@ -1454,7 +1467,6 @@
         option.textContent = sorted[j];
         select.appendChild(option);
       }
-      // Restore previous value if possible
       if (currentVal) {
         select.value = currentVal;
       }
@@ -1469,24 +1481,19 @@
       var salaryRange = document.getElementById('filterSalary').value;
 
       var filtered = currentFolderTalents.filter(function(c) {
-        // Job
         if (job) {
           var normJob = normalizeJob(c.job);
           if (normJob !== job) return false;
         }
-        // Country
         if (country && (c.country || '').trim() !== country) return false;
-        // Religion
         if (religion) {
           var normReligion = normalizeReligion(c.religion);
           if (normReligion !== religion) return false;
         }
-        // Gender
         if (gender) {
           var cGender = c.gender || c.sex || '';
           if (cGender.trim() !== gender) return false;
         }
-        // Experience (UPDATED)
         if (expRange) {
           var expVal = c.experience || c.exp || '0';
           var num = parseFloat(expVal);
@@ -1505,7 +1512,6 @@
             }
           }
         }
-        // Salary
         if (salaryRange) {
           var salVal = c.salary || c.expected_salary || '0';
           var salNum = parseFloat(salVal);
