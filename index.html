@@ -6,7 +6,6 @@
   <title>ZOD Manpower CV System</title>
 
   <style>
-    /* ================= GLOBAL RESETS & FALLBACKS ================= */
     * {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -23,7 +22,7 @@
       -webkit-text-size-adjust: 100%;
     }
 
-    /* ================= LOGIN SCREEN STYLES ================= */
+    /* LOGIN */
     .login-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -138,7 +137,7 @@
       40%, 80% { transform: translateX(8px); }
     }
 
-    /* ================= HEADER STYLES ================= */
+    /* HEADER */
     .header-bar {
       position: -webkit-sticky;
       position: sticky;
@@ -146,7 +145,7 @@
       z-index: 100;
       background-color: #0f172a;
       border-bottom: 1px solid #1e293b;
-      padding: 16px;
+      padding: 12px 16px;
     }
     .header-inner {
       max-width: 1000px;
@@ -162,9 +161,9 @@
       -webkit-box-pack: justify;
       -webkit-justify-content: space-between;
       justify-content: space-between;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
     .logo-container {
       display: -webkit-box;
@@ -173,11 +172,12 @@
       -webkit-box-align: center;
       -webkit-align-items: center;
       align-items: center;
+      min-width: 0;
     }
     .logo-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
       background-color: #007aff;
       display: -webkit-box;
       display: -webkit-flex;
@@ -188,24 +188,30 @@
       -webkit-box-pack: center;
       -webkit-justify-content: center;
       justify-content: center;
-      margin-right: 12px;
+      margin-right: 10px;
       -webkit-shrink: 0;
       flex-shrink: 0;
     }
     .logo-icon svg {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       fill: #ffffff;
     }
     .title-main {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
       color: #ffffff;
       line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .title-sub {
-      font-size: 12px;
+      font-size: 10px;
       color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .header-actions {
       display: -webkit-box;
@@ -214,24 +220,25 @@
       -webkit-box-align: center;
       -webkit-align-items: center;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      flex-wrap: wrap;
     }
     .badge-count {
       background-color: #1e293b;
       border: 1px solid #334155;
       color: #e2e8f0;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
-      padding: 6px 12px;
-      border-radius: 20px;
+      padding: 4px 10px;
+      border-radius: 16px;
     }
     .btn-view-list {
       background-color: #007aff;
       color: #ffffff;
       border: none;
-      border-radius: 10px;
-      padding: 8px 14px;
-      font-size: 13px;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
@@ -242,12 +249,11 @@
     .btn-view-list .badge-list-count {
       background-color: rgba(255,255,255,0.25);
       border-radius: 12px;
-      padding: 0 8px;
+      padding: 0 6px;
       margin-left: 4px;
-      font-size: 11px;
+      font-size: 10px;
     }
 
-    /* Search Box */
     .search-wrap {
       position: relative;
       width: 100%;
@@ -257,25 +263,25 @@
       background-color: #1e293b;
       border: 1px solid #334155;
       border-radius: 10px;
-      padding: 12px 16px 12px 42px;
-      font-size: 14px;
+      padding: 10px 14px 10px 38px;
+      font-size: 13px;
       color: #ffffff;
       outline: none;
     }
     .search-icon-svg {
       position: absolute;
-      left: 14px;
-      top: 12px;
-      width: 18px;
-      height: 18px;
+      left: 12px;
+      top: 10px;
+      width: 16px;
+      height: 16px;
       fill: #94a3b8;
     }
 
-    /* ================= MAIN CONTAINER ================= */
+    /* MAIN */
     .main-content {
       max-width: 1000px;
       margin: 0 auto;
-      padding: 20px 16px 60px 16px;
+      padding: 16px 12px 60px 12px;
     }
     .section-head {
       display: -webkit-box;
@@ -284,16 +290,16 @@
       -webkit-box-align: center;
       -webkit-align-items: center;
       align-items: center;
-      margin-top: 20px;
-      margin-bottom: 12px;
+      margin-top: 16px;
+      margin-bottom: 10px;
     }
     .section-title {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: bold;
       text-transform: uppercase;
       color: #94a3b8;
       letter-spacing: 1px;
-      margin-right: 10px;
+      margin-right: 8px;
     }
     .section-line {
       -webkit-box-flex: 1;
@@ -303,7 +309,59 @@
       background-color: #1e293b;
     }
 
-    /* Grid Layout for Old iOS */
+    /* DELETE BUTTON ON MAIN PAGE */
+    .delete-main-container {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      background-color: #1e293b;
+      border-radius: 10px;
+      border: 1px solid #334155;
+    }
+    .delete-main-btn {
+      background-color: #22c55e;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      gap: 6px;
+    }
+    .delete-main-btn:active {
+      opacity: 0.7;
+    }
+    .delete-main-btn.active {
+      background-color: #ef4444;
+    }
+    .delete-main-btn.active:active {
+      background-color: #dc2626;
+    }
+    .delete-main-status {
+      color: #94a3b8;
+      font-size: 12px;
+    }
+    .delete-main-count {
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: auto;
+    }
+
     .folder-grid {
       width: 100%;
       font-size: 0;
@@ -312,7 +370,7 @@
       display: inline-block;
       vertical-align: top;
       width: 100%;
-      padding-bottom: 12px;
+      padding-bottom: 10px;
       font-size: 14px;
     }
     @media (min-width: 600px) {
@@ -341,7 +399,7 @@
       background-color: #1e293b;
       border: 1px solid #334155;
       border-radius: 12px;
-      padding: 14px;
+      padding: 12px 14px;
       display: -webkit-box;
       display: -webkit-flex;
       display: flex;
@@ -368,9 +426,9 @@
       overflow: hidden;
     }
     .folder-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
       background-color: rgba(0, 122, 255, 0.2);
       display: -webkit-box;
       display: -webkit-flex;
@@ -381,38 +439,40 @@
       -webkit-box-pack: center;
       -webkit-justify-content: center;
       justify-content: center;
-      margin-right: 12px;
+      margin-right: 10px;
       -webkit-shrink: 0;
       flex-shrink: 0;
     }
     .folder-avatar svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       fill: #007aff;
     }
     .card-title {
       color: #ffffff;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .card-sub {
       color: #94a3b8;
-      font-size: 12px;
-      margin-top: 2px;
+      font-size: 11px;
+      margin-top: 1px;
     }
     .num-pill {
       background-color: #007aff;
       color: #ffffff;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: bold;
-      padding: 4px 10px;
-      border-radius: 12px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      -webkit-shrink: 0;
+      flex-shrink: 0;
     }
 
-    /* ================= MODAL VIEWER (FIXED FOR iPAD) ================= */
+    /* MODAL */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -423,14 +483,12 @@
       -webkit-box-direction: normal;
       -webkit-flex-direction: column;
       flex-direction: column;
-      height: 100%;
-      width: 100%;
     }
     .modal-nav {
-      height: 56px;
+      min-height: 50px;
       background-color: #1e293b;
       border-bottom: 1px solid #334155;
-      padding: 0 16px;
+      padding: 0 12px;
       display: -webkit-box;
       display: -webkit-flex;
       display: flex;
@@ -441,25 +499,27 @@
       -webkit-justify-content: space-between;
       justify-content: space-between;
       flex-shrink: 0;
+      flex-wrap: wrap;
+      gap: 4px;
     }
     .btn-back {
       background-color: #334155;
       color: #ffffff;
       border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 13px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
     }
     .modal-title {
       font-weight: bold;
-      font-size: 15px;
+      font-size: 14px;
       color: #ffffff;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 40%;
+      max-width: 35%;
     }
     .modal-nav-right {
       display: -webkit-box;
@@ -468,15 +528,16 @@
       -webkit-box-align: center;
       -webkit-align-items: center;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      flex-wrap: wrap;
     }
     .btn-add-all {
       background-color: #22c55e;
       color: #ffffff;
       border: none;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 11px;
       font-weight: 600;
       cursor: pointer;
     }
@@ -484,16 +545,16 @@
       background-color: #16a34a;
     }
 
-    /* ====== FILTER BAR STYLES (RESPONSIVE) ====== */
+    /* FILTER BAR */
     .filter-bar {
       background-color: #1e293b;
       border-bottom: 1px solid #334155;
-      padding: 8px 12px;
+      padding: 6px 10px;
       display: -webkit-box;
       display: -webkit-flex;
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 4px;
       -webkit-box-align: center;
       -webkit-align-items: center;
       align-items: center;
@@ -502,20 +563,20 @@
     .filter-select {
       background-color: #0f172a;
       border: 1px solid #334155;
-      border-radius: 6px;
-      padding: 5px 24px 5px 8px;
-      font-size: 11px;
+      border-radius: 5px;
+      padding: 4px 20px 4px 6px;
+      font-size: 10px;
       color: #ffffff;
       outline: none;
       cursor: pointer;
-      min-width: 60px;
-      max-width: 140px;
+      min-width: 50px;
+      max-width: 110px;
       -webkit-appearance: none;
       appearance: none;
       background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
       background-repeat: no-repeat;
-      background-position: right 6px top 50%;
-      background-size: 8px auto;
+      background-position: right 5px top 50%;
+      background-size: 7px auto;
       flex: 1 0 auto;
     }
     .filter-select:focus {
@@ -529,9 +590,9 @@
       background-color: #334155;
       color: #ffffff;
       border: none;
-      padding: 5px 12px;
-      border-radius: 6px;
-      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 5px;
+      font-size: 10px;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
@@ -542,14 +603,14 @@
     }
     .filter-count {
       color: #94a3b8;
-      font-size: 11px;
+      font-size: 10px;
       margin-left: auto;
       white-space: nowrap;
       flex-shrink: 0;
-      padding-left: 6px;
+      padding-left: 4px;
     }
 
-    /* ====== GALLERY CONTAINER - FIXED FOR iPAD ====== */
+    /* GALLERY */
     .gallery-container {
       -webkit-box-flex: 1;
       -webkit-flex: 1;
@@ -560,30 +621,24 @@
       padding: 12px;
       white-space: nowrap;
       font-size: 0;
-      min-height: 0;
-      height: auto;
     }
-
-    /* ====== CV SLIDE BOX - COMPLETELY REDESIGNED ====== */
     .cv-slide-box {
       display: inline-block;
       vertical-align: top;
-      width: 90%;
-      max-width: 600px;
+      width: 88%;
+      max-width: 550px;
       height: 100%;
-      margin-right: 14px;
+      margin-right: 12px;
       white-space: normal;
-      font-size: 14px;
-      position: relative;
+      font-size: 13px;
     }
-
-    /* Image Frame - Takes remaining space */
     .cv-image-frame {
       position: relative;
       width: 100%;
-      height: calc(100% - 65px); /* Leave space for footer */
+      height: calc(100% - 55px);
+      min-height: 300px;
       background-color: #000000;
-      border-radius: 12px;
+      border-radius: 10px;
       border: 1px solid #334155;
       overflow: hidden;
       text-align: center;
@@ -596,7 +651,6 @@
       -webkit-box-pack: center;
       -webkit-justify-content: center;
       justify-content: center;
-      min-height: 200px;
     }
     .cv-image-frame img {
       max-width: 100%;
@@ -605,34 +659,77 @@
       height: auto;
       display: block;
       margin: 0 auto;
-      object-fit: contain;
     }
     .tag-counter {
       position: absolute;
-      top: 10px; right: 10px;
+      bottom: 8px;
+      left: 8px;
       background: rgba(0,0,0,0.85);
       color: #ffffff;
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: 10px;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 8px;
       z-index: 10;
     }
     .btn-open-link {
       position: absolute;
-      top: 10px; left: 10px;
+      bottom: 8px;
+      left: 60px;
       background: #007aff;
       color: #ffffff;
-      font-size: 11px;
-      padding: 6px 12px;
-      border-radius: 10px;
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 8px;
       text-decoration: none;
       font-weight: bold;
       z-index: 10;
     }
 
-    /* Footer - Always visible at bottom */
+    /* TOP BUTTONS ON CV CARD */
+    .cv-top-actions {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      z-index: 15;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: justify;
+      -webkit-justify-content: space-between;
+      justify-content: space-between;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      pointer-events: none;
+    }
+    .cv-top-actions > * {
+      pointer-events: auto;
+    }
+
+    .btn-add-top {
+      background-color: #22c55e;
+      color: #ffffff;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .btn-add-top:active {
+      background-color: #16a34a;
+    }
+    .btn-add-top.added {
+      background-color: #22c55e;
+      color: #ffffff;
+    }
+
     .cv-footer {
-      margin-top: 8px;
+      margin-top: 6px;
       display: -webkit-box;
       display: -webkit-flex;
       display: flex;
@@ -642,79 +739,52 @@
       -webkit-box-pack: justify;
       -webkit-justify-content: space-between;
       justify-content: space-between;
-      width: 100%;
-      flex-shrink: 0;
-      padding: 4px 0;
-      min-height: 50px;
+      min-height: 40px;
     }
     .cv-info {
       -webkit-box-flex: 1;
       -webkit-flex: 1;
       flex: 1;
       min-width: 0;
-      padding-right: 8px;
+      padding-right: 4px;
     }
     .cv-info-name {
       color: #ffffff;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 13px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .cv-info-detail {
       color: #94a3b8;
-      font-size: 12px;
+      font-size: 11px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .btn-add-cv {
-      background-color: #334155;
-      color: #94a3b8;
-      border: 1px solid #475569;
-      border-radius: 8px;
-      padding: 6px 16px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      -webkit-shrink: 0;
-      flex-shrink: 0;
-      transition: all 0.2s;
-      min-width: 65px;
-      text-align: center;
-    }
-    .btn-add-cv:active {
-      background-color: #475569;
-    }
-    .btn-add-cv.added {
-      background-color: #22c55e;
-      border-color: #22c55e;
-      color: #ffffff;
-    }
 
     .img-error-box {
       color: #94a3b8;
-      font-size: 13px;
+      font-size: 12px;
       text-align: center;
-      padding: 20px;
+      padding: 16px;
     }
 
-    /* ================= LIST MODAL ================= */
+    /* LIST MODAL */
     .list-modal-content {
       -webkit-box-flex: 1;
       -webkit-flex: 1;
       flex: 1;
       overflow-y: auto;
-      padding: 16px;
+      padding: 12px;
     }
     .list-item {
       background-color: #1e293b;
       border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 12px 14px;
-      margin-bottom: 10px;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
       display: -webkit-box;
       display: -webkit-flex;
       display: flex;
@@ -734,14 +804,14 @@
     .list-item-name {
       color: #ffffff;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .list-item-sub {
       color: #94a3b8;
-      font-size: 12px;
+      font-size: 11px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -750,14 +820,14 @@
       background-color: #ef4444;
       color: #ffffff;
       border: none;
-      border-radius: 6px;
-      padding: 4px 12px;
-      font-size: 12px;
+      border-radius: 5px;
+      padding: 3px 10px;
+      font-size: 11px;
       font-weight: bold;
       cursor: pointer;
       -webkit-shrink: 0;
       flex-shrink: 0;
-      margin-left: 8px;
+      margin-left: 6px;
     }
     .btn-remove-item:active {
       background-color: #dc2626;
@@ -765,15 +835,15 @@
     .list-empty {
       text-align: center;
       color: #94a3b8;
-      padding: 40px 16px;
-      font-size: 15px;
+      padding: 30px 16px;
+      font-size: 14px;
     }
     .list-actions {
-      padding: 16px;
+      padding: 12px;
       display: -webkit-box;
       display: -webkit-flex;
       display: flex;
-      gap: 10px;
+      gap: 8px;
       border-top: 1px solid #1e293b;
       flex-shrink: 0;
     }
@@ -784,9 +854,9 @@
       background-color: #22c55e;
       color: #ffffff;
       border: none;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 15px;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 14px;
       font-weight: bold;
       cursor: pointer;
     }
@@ -797,9 +867,9 @@
       background-color: #334155;
       color: #ffffff;
       border: none;
-      border-radius: 12px;
-      padding: 14px 20px;
-      font-size: 14px;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
     }
@@ -807,7 +877,7 @@
       background-color: #475569;
     }
 
-    /* ================= PHONE INPUT MODAL ================= */
+    /* PHONE MODAL */
     .phone-modal-content {
       -webkit-box-flex: 1;
       -webkit-flex: 1;
@@ -821,21 +891,21 @@
       -webkit-box-pack: center;
       -webkit-justify-content: center;
       justify-content: center;
-      padding: 20px;
+      padding: 16px;
     }
     .phone-box {
       background-color: #1e293b;
       border: 1px solid #334155;
-      border-radius: 20px;
-      padding: 32px 24px;
+      border-radius: 16px;
+      padding: 24px 20px;
       width: 100%;
-      max-width: 380px;
+      max-width: 360px;
       text-align: center;
     }
     .phone-box .icon-big {
-      width: 56px;
-      height: 56px;
-      border-radius: 16px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
       background-color: rgba(0, 122, 255, 0.15);
       border: 1px solid rgba(0, 122, 255, 0.3);
       display: -webkit-box;
@@ -847,34 +917,34 @@
       -webkit-box-pack: center;
       -webkit-justify-content: center;
       justify-content: center;
-      margin: 0 auto 16px auto;
+      margin: 0 auto 12px auto;
     }
     .phone-box .icon-big svg {
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
       fill: #007aff;
     }
     .phone-box h3 {
       color: #ffffff;
-      font-size: 18px;
-      margin-bottom: 6px;
+      font-size: 16px;
+      margin-bottom: 4px;
     }
     .phone-box p {
       color: #94a3b8;
-      font-size: 13px;
-      margin-bottom: 20px;
+      font-size: 12px;
+      margin-bottom: 16px;
     }
     .phone-box input {
       width: 100%;
       background-color: #0f172a;
       border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 16px;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 14px;
       color: #ffffff;
       outline: none;
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     .phone-box input:focus {
       border-color: #007aff;
@@ -884,9 +954,9 @@
       background-color: #007aff;
       color: #ffffff;
       border: none;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 15px;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 14px;
       font-weight: bold;
       cursor: pointer;
     }
@@ -897,8 +967,8 @@
       background-color: transparent;
       color: #94a3b8;
       border: none;
-      font-size: 13px;
-      margin-top: 12px;
+      font-size: 12px;
+      margin-top: 10px;
       cursor: pointer;
     }
     .phone-box .btn-close-phone:active {
@@ -906,26 +976,26 @@
     }
     .phone-success {
       color: #22c55e;
-      font-size: 14px;
-      margin-top: 12px;
+      font-size: 13px;
+      margin-top: 10px;
       display: none;
     }
 
-    /* ================= TOAST NOTIFICATION ================= */
+    /* TOAST */
     .toast-notification {
       position: fixed;
-      bottom: 30px;
+      bottom: 24px;
       left: 50%;
       -webkit-transform: translateX(-50%);
       transform: translateX(-50%);
       background-color: #22c55e;
       color: #ffffff;
-      padding: 16px 24px;
-      border-radius: 12px;
+      padding: 12px 20px;
+      border-radius: 10px;
       box-shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
       z-index: 99999;
       font-weight: bold;
-      font-size: 15px;
+      font-size: 14px;
       max-width: 90%;
       text-align: center;
       -webkit-transition: opacity 0.3s ease, -webkit-transform 0.3s ease;
@@ -946,14 +1016,13 @@
       background-color: #ef4444;
     }
 
-    /* Utility */
     .hidden { display: none !important; }
-    .status-msg { text-align: center; padding: 50px 16px; color: #94a3b8; font-size: 14px; }
+    .status-msg { text-align: center; padding: 40px 16px; color: #94a3b8; font-size: 13px; }
   </style>
 </head>
 <body>
 
-  <!-- ================= LOGIN OVERLAY ================= -->
+  <!-- LOGIN -->
   <div id="loginOverlay" class="login-overlay">
     <div id="loginCard" class="login-card">
       <div class="login-icon-box">
@@ -964,14 +1033,7 @@
       
       <form onsubmit="handleLogin(event)">
         <div class="login-input-group">
-          <input 
-            type="password" 
-            id="passInput" 
-            class="login-input" 
-            placeholder="••••" 
-            maxlength="10" 
-            autofocus 
-          />
+          <input type="password" id="passInput" class="login-input" placeholder="••••" maxlength="10" autofocus />
         </div>
         <button type="submit" class="login-btn">Unlock Portal</button>
       </form>
@@ -980,12 +1042,12 @@
     </div>
   </div>
 
-  <!-- ================= TOAST NOTIFICATION ================= -->
+  <!-- TOAST -->
   <div id="toastNotification" class="toast-notification">
     <span id="toastMessage"></span>
   </div>
 
-  <!-- ================= HEADER ================= -->
+  <!-- HEADER -->
   <div class="header-bar">
     <div class="header-inner">
       <div class="header-top">
@@ -1003,41 +1065,36 @@
             <span id="totalCount">0</span> CVs
           </div>
           <button onclick="openListModal()" class="btn-view-list">
-            📋 List <span id="listCountBadge" class="badge-list-count">0</span>
+            📋 <span id="listCountBadge" class="badge-list-count">0</span>
           </button>
         </div>
       </div>
 
       <div class="search-wrap">
         <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-        <input
-          type="text"
-          id="searchInput"
-          onkeyup="filterFolders()"
-          oninput="filterFolders()"
-          placeholder="Search folders (role, country, type)..."
-          class="search-input"
-        />
+        <input type="text" id="searchInput" onkeyup="filterFolders()" oninput="filterFolders()" placeholder="Search folders..." class="search-input" />
       </div>
     </div>
   </div>
 
-  <!-- ================= MAIN BODY ================= -->
+  <!-- MAIN -->
   <div class="main-content">
-    <div id="loadingState" class="status-msg">
-      Loading Candidates & Data...
-    </div>
-
+    <div id="loadingState" class="status-msg">Loading Candidates & Data...</div>
     <div id="errorState" class="status-msg hidden" style="color: #f87171;">
       <span id="errorText">Error loading data.</span>
     </div>
+    <div id="emptyState" class="status-msg hidden">No folders match your search query.</div>
 
-    <div id="emptyState" class="status-msg hidden">
-      No folders match your search query.
+    <!-- DELETE BUTTON ON MAIN PAGE -->
+    <div id="deleteMainContainer" class="delete-main-container hidden">
+      <button id="deleteMainBtn" class="delete-main-btn" onclick="toggleDeleteMain()">
+        🗑️ Delete CVs
+      </button>
+      <span id="deleteMainStatus" class="delete-main-status">Click to activate</span>
+      <span id="deleteMainCount" class="delete-main-count">0 selected</span>
     </div>
 
     <div id="sectionsContainer" class="hidden">
-      <!-- Housemaid Types -->
       <div id="sec-housemaid">
         <div class="section-head">
           <span class="section-title">Housemaid Types</span>
@@ -1046,7 +1103,6 @@
         <div id="grid-housemaid" class="folder-grid"></div>
       </div>
 
-      <!-- Job Roles -->
       <div id="sec-jobs">
         <div class="section-head">
           <span class="section-title">Job Roles</span>
@@ -1055,7 +1111,6 @@
         <div id="grid-jobs" class="folder-grid"></div>
       </div>
 
-      <!-- Countries -->
       <div id="sec-countries">
         <div class="section-head">
           <span class="section-title">Countries</span>
@@ -1066,7 +1121,7 @@
     </div>
   </div>
 
-  <!-- ================= CV VIEWER MODAL ================= -->
+  <!-- CV MODAL -->
   <div id="cvModal" class="modal-overlay">
     <div class="modal-nav">
       <button onclick="closeModal()" class="btn-back">← Back</button>
@@ -1080,10 +1135,10 @@
     <!-- FILTER BAR -->
     <div class="filter-bar">
       <select id="filterJob" class="filter-select" onchange="applyModalFilters()">
-        <option value="">💼 All Jobs</option>
+        <option value="">💼 Jobs</option>
       </select>
       <select id="filterCountry" class="filter-select" onchange="applyModalFilters()">
-        <option value="">🌍 Countries</option>
+        <option value="">🌍 Country</option>
       </select>
       <select id="filterReligion" class="filter-select" onchange="applyModalFilters()">
         <option value="">⛪ Religion</option>
@@ -1094,50 +1149,47 @@
         <option value="Female">Female</option>
       </select>
       <select id="filterExperience" class="filter-select" onchange="applyModalFilters()">
-        <option value="">📅 Experience</option>
+        <option value="">📅 Exp</option>
         <option value="0">0 (First Timer)</option>
-        <option value="1-5">1 - 5 Years</option>
-        <option value="5-10">5 - 10 Years</option>
-        <option value="10+">10+ Years</option>
+        <option value="1-5">1-5 Yrs</option>
+        <option value="5-10">5-10 Yrs</option>
+        <option value="10+">10+ Yrs</option>
       </select>
       <select id="filterSalary" class="filter-select" onchange="applyModalFilters()">
         <option value="">💰 Salary</option>
         <option value="0-1000">Below 1000</option>
-        <option value="1000-2000">1000 - 2000</option>
-        <option value="2000-3000">2000 - 3000</option>
+        <option value="1000-2000">1000-2000</option>
+        <option value="2000-3000">2000-3000</option>
         <option value="3000+">3000+</option>
       </select>
-      <button onclick="clearModalFilters()" class="btn-clear-filters">✕ Clear</button>
+      <button onclick="clearModalFilters()" class="btn-clear-filters">✕</button>
       <span id="filterCount" class="filter-count"></span>
     </div>
 
-    <div id="slidesViewport" class="gallery-container">
-      <!-- Slides loaded here -->
-    </div>
+    <!-- GALLERY -->
+    <div id="slidesViewport" class="gallery-container"></div>
   </div>
 
-  <!-- ================= LIST MODAL ================= -->
+  <!-- LIST MODAL -->
   <div id="listModal" class="modal-overlay">
     <div class="modal-nav">
       <button onclick="closeListModal()" class="btn-back">← Back</button>
       <div class="modal-title">📋 Added CVs</div>
       <div id="listModalBadge" class="num-pill">0</div>
     </div>
-    <div id="listModalBody" class="list-modal-content">
-      <!-- List items go here -->
-    </div>
+    <div id="listModalBody" class="list-modal-content"></div>
     <div class="list-actions">
       <button onclick="clearAllList()" class="btn-clear">Clear All</button>
       <button onclick="openPhoneModal()" class="btn-send">📤 Send CVs</button>
     </div>
   </div>
 
-  <!-- ================= PHONE NUMBER MODAL ================= -->
+  <!-- PHONE MODAL -->
   <div id="phoneModal" class="modal-overlay">
     <div class="modal-nav">
       <button onclick="closePhoneModal()" class="btn-back">← Back</button>
       <div class="modal-title">📤 Share CVs</div>
-      <div style="width:50px;"></div>
+      <div style="width:40px;"></div>
     </div>
     <div class="phone-modal-content">
       <div class="phone-box">
@@ -1156,8 +1208,9 @@
 
   <!-- ================= JAVASCRIPT ================= -->
   <script>
-    // ========== LOGIN ==========
+    // LOGIN
     var CORRECT_PASSWORD = "1978";
+    var DELETE_PASSWORD = "1810";
 
     function handleLogin(e) {
       if (e) e.preventDefault();
@@ -1172,9 +1225,7 @@
       } else {
         err.style.display = "block";
         card.className = "login-card shake";
-        setTimeout(function() {
-          card.className = "login-card";
-        }, 300);
+        setTimeout(function() { card.className = "login-card"; }, 300);
       }
     }
 
@@ -1185,35 +1236,23 @@
       }
     }
 
-    // ========== TOAST NOTIFICATION ==========
+    // TOAST
     function showToast(message, isError) {
       var toast = document.getElementById("toastNotification");
       var msg = document.getElementById("toastMessage");
-      
       msg.innerText = message;
       toast.className = "toast-notification";
-      if (isError) {
-        toast.classList.add("error");
-      }
-      
-      if (window.toastTimeout) {
-        clearTimeout(window.toastTimeout);
-      }
-      
-      setTimeout(function() {
-        toast.classList.add("show");
-      }, 50);
-      
-      window.toastTimeout = setTimeout(function() {
-        toast.classList.remove("show");
-      }, 4000);
+      if (isError) toast.classList.add("error");
+      if (window.toastTimeout) clearTimeout(window.toastTimeout);
+      setTimeout(function() { toast.classList.add("show"); }, 50);
+      window.toastTimeout = setTimeout(function() { toast.classList.remove("show"); }, 4000);
     }
 
-    // ========== SUPABASE CONFIG ==========
-    var SUPABASE_URL = "https://ksyxmoqzcghszrhlpaxh.supabase.co"; 
+    // SUPABASE
+    var SUPABASE_URL = "https://ksyxmoqzcghszrhlpaxh.supabase.co";
     var SUPABASE_KEY = "sb_publishable_U289_qf4pkGHp-G1C4kX5w_2bztcmOg";
 
-    // ========== DATA LABELS ==========
+    // LABELS
     var JOB_LABELS = {
       "House Maid": "Housemaid",
       "Housemaid": "Housemaid",
@@ -1248,27 +1287,26 @@
     var talents = [];
     var selectedCVs = [];
     var currentFolderTalents = [];
+    var deleteModeActive = false;
 
-    // ========== INIT DATA ==========
+    // INIT
     function initData() {
       var xhr = new XMLHttpRequest();
       var reqUrl = SUPABASE_URL + "/rest/v1/talents?select=*&order=created_at.desc";
-      
       xhr.open("GET", reqUrl, true);
       xhr.setRequestHeader("apikey", SUPABASE_KEY);
       xhr.setRequestHeader("Authorization", "Bearer " + SUPABASE_KEY);
-
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
           if (xhr.status >= 200 && xhr.status < 300) {
             try {
               var responseData = JSON.parse(xhr.responseText);
               talents = responseData || [];
-              
               document.getElementById("loadingState").className += " hidden";
               document.getElementById("totalCount").innerText = talents.length;
               document.getElementById("totalBadge").className = "badge-count";
               document.getElementById("sectionsContainer").className = "";
+              document.getElementById("deleteMainContainer").className = "delete-main-container";
               filterFolders();
             } catch(e) {
               showError("JSON Parse Error: " + e.message);
@@ -1278,11 +1316,7 @@
           }
         }
       };
-
-      xhr.onerror = function() {
-        showError("Connection Failed. Check internet or SSL settings.");
-      };
-
+      xhr.onerror = function() { showError("Connection Failed."); };
       xhr.send();
     }
 
@@ -1292,15 +1326,127 @@
       document.getElementById("errorState").className = "status-msg";
     }
 
-    function normalizeJob(raw) {
-      return JOB_LABELS[raw] || raw;
+    function normalizeJob(raw) { return JOB_LABELS[raw] || raw; }
+    function normalizeReligion(raw) { return RELIGION_LABELS[raw] || raw; }
+
+    // ========== DELETE MAIN - ON MAIN PAGE ==========
+    function toggleDeleteMain() {
+      var btn = document.getElementById("deleteMainBtn");
+      var status = document.getElementById("deleteMainStatus");
+      var count = document.getElementById("deleteMainCount");
+
+      if (selectedCVs.length === 0) {
+        showToast("No CVs in your list to delete!", true);
+        return;
+      }
+
+      if (!deleteModeActive) {
+        // Ask for password first
+        var pwd = prompt("Enter Delete Mode Password:");
+        if (pwd === null) return;
+        if (pwd !== DELETE_PASSWORD) {
+          showToast("Incorrect password!", true);
+          return;
+        }
+        // Activate delete mode
+        deleteModeActive = true;
+        btn.classList.add("active");
+        btn.innerHTML = "🗑️ Delete Selected";
+        status.innerText = "⚠️ Click to delete " + selectedCVs.length + " CV(s)";
+        status.style.color = "#ef4444";
+        showToast("Delete Mode ON - Click again to delete all " + selectedCVs.length + " CV(s)!");
+      } else {
+        // Delete all selected CVs
+        if (!confirm("⚠️ Are you sure you want to permanently delete " + selectedCVs.length + " CV(s)? This cannot be undone!")) {
+          return;
+        }
+
+        deleteAllSelectedCVs();
+      }
     }
 
-    function normalizeReligion(raw) {
-      return RELIGION_LABELS[raw] || raw;
+    function deleteAllSelectedCVs() {
+      var idsToDelete = [];
+      for (var i = 0; i < selectedCVs.length; i++) {
+        idsToDelete.push(selectedCVs[i].id);
+      }
+
+      var deletePromises = [];
+      for (var i = 0; i < idsToDelete.length; i++) {
+        var id = idsToDelete[i];
+        var url = SUPABASE_URL + "/rest/v1/talents?id=eq." + id;
+        
+        var promise = new Promise(function(resolve, reject) {
+          var xhr = new XMLHttpRequest();
+          xhr.open("DELETE", url, true);
+          xhr.setRequestHeader("apikey", SUPABASE_KEY);
+          xhr.setRequestHeader("Authorization", "Bearer " + SUPABASE_KEY);
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+              if (xhr.status >= 200 && xhr.status < 300) {
+                resolve(id);
+              } else {
+                reject(id);
+              }
+            }
+          };
+          xhr.send();
+        });
+        deletePromises.push(promise);
+      }
+
+      Promise.allSettled(deletePromises).then(function(results) {
+        var deleted = 0;
+        var failed = 0;
+        for (var i = 0; i < results.length; i++) {
+          if (results[i].status === "fulfilled") {
+            deleted++;
+          } else {
+            failed++;
+          }
+        }
+
+        // Remove deleted from local talents array
+        for (var j = idsToDelete.length - 1; j >= 0; j--) {
+          var idToRemove = idsToDelete[j];
+          for (var k = talents.length - 1; k >= 0; k--) {
+            if (talents[k].id == idToRemove) {
+              talents.splice(k, 1);
+              break;
+            }
+          }
+        }
+
+        // Clear selected list
+        selectedCVs = [];
+        updateListBadge();
+
+        // Update total count
+        document.getElementById("totalCount").innerText = talents.length;
+
+        // Reset delete mode
+        deleteModeActive = false;
+        var btn = document.getElementById("deleteMainBtn");
+        btn.classList.remove("active");
+        btn.innerHTML = "🗑️ Delete CVs";
+        document.getElementById("deleteMainStatus").innerText = "Click to activate";
+        document.getElementById("deleteMainStatus").style.color = "#94a3b8";
+        document.getElementById("deleteMainCount").innerText = "0 selected";
+
+        // Update folder counts
+        filterFolders();
+
+        showToast("✅ " + deleted + " CV(s) deleted successfully!" + (failed > 0 ? " (" + failed + " failed)" : ""));
+      });
     }
 
-    // ========== FILTER FOLDERS (MAIN DASHBOARD) ==========
+    // Update delete count on main page
+    function updateDeleteMainCount() {
+      var count = document.getElementById("deleteMainCount");
+      count.innerText = selectedCVs.length + " selected";
+    }
+
+    // ========== FILTER FOLDERS ==========
     function filterFolders() {
       var q = document.getElementById("searchInput").value.toLowerCase().trim();
 
@@ -1308,17 +1454,17 @@
         {
           label: "Recruitment Housemaids",
           icon: SVG_FOLDER,
-          talents: talents.filter(function(t) { 
+          talents: talents.filter(function(t) {
             var wType = t.workerType || t.workertype || t.worker_type || "";
-            return wType === "Recruitment Workers"; 
+            return wType === "Recruitment Workers";
           })
         },
         {
           label: "Returned Housemaids",
           icon: SVG_FOLDER,
-          talents: talents.filter(function(t) { 
+          talents: talents.filter(function(t) {
             var wType = t.workerType || t.workertype || t.worker_type || "";
-            return wType === "Returned Housemaids"; 
+            return wType === "Returned Housemaids";
           })
         }
       ];
@@ -1328,9 +1474,7 @@
         var job = talents[i].job;
         if (job) {
           var normalized = normalizeJob(job);
-          if (!jobMap[normalized]) {
-            jobMap[normalized] = [];
-          }
+          if (!jobMap[normalized]) jobMap[normalized] = [];
           jobMap[normalized].push(job);
         }
       }
@@ -1340,9 +1484,7 @@
         jobs.push({
           label: key,
           icon: SVG_BRIEFCASE,
-          talents: talents.filter(function(t) {
-            return jobMap[key].indexOf(t.job) !== -1;
-          })
+          talents: talents.filter(function(t) { return jobMap[key].indexOf(t.job) !== -1; })
         });
       }
 
@@ -1397,7 +1539,7 @@
               return function() { openModal(folderObj); };
             })(item);
 
-            card.innerHTML = 
+            card.innerHTML =
               '<div class="card-left">' +
                 '<div class="folder-avatar">' + item.icon + '</div>' +
                 '<div>' +
@@ -1423,7 +1565,7 @@
       }
     }
 
-    // ========== MODAL RENDERING & FILTERS ==========
+    // MODAL FUNCTIONS
     function openModal(folder) {
       currentFolderTalents = folder.talents;
       document.getElementById("modalTitle").innerText = folder.label;
@@ -1432,13 +1574,13 @@
       populateFilterOptions('filterJob', 'job', normalizeJob);
       populateFilterOptions('filterCountry', 'country', function(v) { return v; });
       populateFilterOptions('filterReligion', 'religion', normalizeReligion);
-      
+
       document.getElementById('filterGender').value = '';
       document.getElementById('filterExperience').value = '';
       document.getElementById('filterSalary').value = '';
 
       applyModalFilters();
-      
+
       var modal = document.getElementById("cvModal");
       modal.style.display = "-webkit-flex";
       modal.style.display = "flex";
@@ -1449,15 +1591,13 @@
       var currentVal = select.value;
       var defaultLabel = select.options[0] ? select.options[0].text : 'All';
       select.innerHTML = '<option value="">' + defaultLabel + '</option>';
-      
+
       var uniqueValues = {};
       for (var i = 0; i < currentFolderTalents.length; i++) {
         var rawVal = currentFolderTalents[i][key];
         if (rawVal && typeof rawVal === 'string' && rawVal.trim() !== '') {
           var normVal = normalizeFn ? normalizeFn(rawVal.trim()) : rawVal.trim();
-          if (normVal) {
-            uniqueValues[normVal] = true;
-          }
+          if (normVal) uniqueValues[normVal] = true;
         }
       }
       var sorted = Object.keys(uniqueValues).sort();
@@ -1467,9 +1607,7 @@
         option.textContent = sorted[j];
         select.appendChild(option);
       }
-      if (currentVal) {
-        select.value = currentVal;
-      }
+      if (currentVal) select.value = currentVal;
     }
 
     function applyModalFilters() {
@@ -1498,7 +1636,6 @@
           var expVal = c.experience || c.exp || '0';
           var num = parseFloat(expVal);
           if (isNaN(num)) num = 0;
-          
           if (expRange === '0') {
             if (num !== 0) return false;
           } else {
@@ -1573,27 +1710,26 @@
         var expText = c.experience || c.exp || 'N/A';
         var countryText = c.country || 'N/A';
 
-        var isAdded = selectedCVs.some(function(item) {
-          return item.id === c.id;
-        });
+        var isAdded = selectedCVs.some(function(item) { return item.id === c.id; });
 
-        slide.innerHTML = 
+        slide.innerHTML =
           '<div class="cv-image-frame">' +
             imgHtml +
             '<span class="tag-counter">' + (i + 1) + ' / ' + talentsToShow.length + '</span>' +
             linkHtml +
+            '<div class="cv-top-actions">' +
+              '<button class="btn-add-top' + (isAdded ? ' added' : '') + '" onclick="toggleAddCV(\'' + c.id + '\', this)">' +
+                (isAdded ? '✓ Added' : '+ Add') +
+              '</button>' +
+            '</div>' +
           '</div>' +
           '<div class="cv-footer">' +
             '<div class="cv-info">' +
               '<div class="cv-info-name">' + nameText + '</div>' +
               '<div class="cv-info-detail">' + jobText + ' • Exp: ' + expText + ' • ' + countryText + '</div>' +
             '</div>' +
-            '<button class="btn-add-cv' + (isAdded ? ' added' : '') + '" onclick="toggleAddCV(' + i + ', this)">' + 
-              (isAdded ? '✓ Added' : '+ Add') +
-            '</button>' +
           '</div>';
 
-        slide.dataset.index = i;
         slide.dataset.id = c.id;
         vp.appendChild(slide);
       }
@@ -1603,13 +1739,8 @@
       document.getElementById("cvModal").style.display = "none";
     }
 
-    // ========== ADD / REMOVE CV ==========
-    function toggleAddCV(index, btn) {
-      var slides = document.getElementById("slidesViewport").querySelectorAll('.cv-slide-box');
-      if (index >= slides.length) return;
-      var slide = slides[index];
-      var cvId = slide.dataset.id;
-      
+    // ADD / REMOVE CV
+    function toggleAddCV(cvId, btn) {
       var cv = null;
       for (var i = 0; i < currentFolderTalents.length; i++) {
         if (currentFolderTalents[i].id == cvId) {
@@ -1619,49 +1750,43 @@
       }
       if (!cv) return;
 
-      var existingIndex = selectedCVs.findIndex(function(item) {
-        return item.id === cv.id;
-      });
+      var existingIndex = selectedCVs.findIndex(function(item) { return item.id === cv.id; });
 
       if (existingIndex >= 0) {
         selectedCVs.splice(existingIndex, 1);
-        btn.className = "btn-add-cv";
+        btn.className = "btn-add-top";
         btn.innerText = "+ Add";
       } else {
         selectedCVs.push(cv);
-        btn.className = "btn-add-cv added";
+        btn.className = "btn-add-top added";
         btn.innerText = "✓ Added";
       }
 
       updateListBadge();
+      document.getElementById("modalBadge").innerText = currentFolderTalents.length + " CVs";
+      updateDeleteMainCount();
     }
 
     function addAllFromFolder() {
       if (currentFolderTalents.length === 0) return;
 
-      var addedCount = 0;
       for (var i = 0; i < currentFolderTalents.length; i++) {
         var cv = currentFolderTalents[i];
-        var existingIndex = selectedCVs.findIndex(function(item) {
-          return item.id === cv.id;
-        });
+        var existingIndex = selectedCVs.findIndex(function(item) { return item.id === cv.id; });
         if (existingIndex === -1) {
           selectedCVs.push(cv);
-          addedCount++;
         }
       }
 
-      var allBtns = document.querySelectorAll("#slidesViewport .btn-add-cv");
-      for (var j = 0; j < allBtns.length; j++) {
-        var btn = allBtns[j];
+      var allAddBtns = document.querySelectorAll(".btn-add-top");
+      for (var j = 0; j < allAddBtns.length; j++) {
+        var btn = allAddBtns[j];
         var slide = btn.closest(".cv-slide-box");
         if (slide) {
           var cvId = slide.dataset.id;
-          var isAdded = selectedCVs.some(function(item) {
-            return item.id == cvId;
-          });
+          var isAdded = selectedCVs.some(function(item) { return item.id == cvId; });
           if (isAdded) {
-            btn.className = "btn-add-cv added";
+            btn.className = "btn-add-top added";
             btn.innerText = "✓ Added";
           }
         }
@@ -1669,13 +1794,16 @@
 
       updateListBadge();
       document.getElementById("modalBadge").innerText = currentFolderTalents.length + " CVs";
+      updateDeleteMainCount();
+      showToast("All CVs added to list!");
     }
 
     function updateListBadge() {
       document.getElementById("listCountBadge").innerText = selectedCVs.length;
+      updateDeleteMainCount();
     }
 
-    // ========== LIST MODAL ==========
+    // LIST MODAL
     function openListModal() {
       renderListModal();
       var modal = document.getElementById("listModal");
@@ -1702,7 +1830,7 @@
         var c = selectedCVs[i];
         var nameText = c.name || c.candidate_name || 'Unnamed Candidate';
         var jobText = c.job || c.job_role || 'N/A';
-        html += 
+        html +=
           '<div class="list-item">' +
             '<div class="list-item-left">' +
               '<div class="list-item-name">' + nameText + '</div>' +
@@ -1718,6 +1846,23 @@
       selectedCVs.splice(index, 1);
       renderListModal();
       updateListBadge();
+      updateDeleteMainCount();
+      var allAddBtns = document.querySelectorAll(".btn-add-top");
+      for (var j = 0; j < allAddBtns.length; j++) {
+        var btn = allAddBtns[j];
+        var slide = btn.closest(".cv-slide-box");
+        if (slide) {
+          var cvId = slide.dataset.id;
+          var isAdded = selectedCVs.some(function(item) { return item.id == cvId; });
+          if (isAdded) {
+            btn.className = "btn-add-top added";
+            btn.innerText = "✓ Added";
+          } else {
+            btn.className = "btn-add-top";
+            btn.innerText = "+ Add";
+          }
+        }
+      }
     }
 
     function clearAllList() {
@@ -1726,10 +1871,16 @@
         selectedCVs = [];
         renderListModal();
         updateListBadge();
+        updateDeleteMainCount();
+        var allAddBtns = document.querySelectorAll(".btn-add-top");
+        for (var j = 0; j < allAddBtns.length; j++) {
+          allAddBtns[j].className = "btn-add-top";
+          allAddBtns[j].innerText = "+ Add";
+        }
       }
     }
 
-    // ========== PHONE MODAL ==========
+    // PHONE MODAL
     function openPhoneModal() {
       if (selectedCVs.length === 0) {
         showToast("Please add at least one CV to send.", true);
@@ -1746,25 +1897,20 @@
       document.getElementById("phoneModal").style.display = "none";
     }
 
-    // ========== SEND TO GOOGLE SHEETS ==========
     function sendToGoogleSheets(data) {
       var url = "https://script.google.com/macros/s/AKfycbxuvPgWbZR_m4Xg_uHpQ1RxQQQQ8kmJZAv6_5zRHLZwb8wWHnxXUvwm6OPH-M_bK8sqnA/exec";
-      
       fetch(url, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
-      })
-      .then(function(res) {
-        console.log("✅ Data sent to Google Sheets:", data);
-      })
-      .catch(function(err) {
-        console.error("❌ Error sending to Google Sheets:", err);
+      }).then(function(res) {
+        console.log("Data sent to Google Sheets:", data);
+      }).catch(function(err) {
+        console.error("Error sending to Google Sheets:", err);
       });
     }
 
-    // ========== SUBMIT PHONE ==========
     function submitPhone() {
       var phone = document.getElementById("phoneInput").value.trim();
       if (phone === "") {
@@ -1785,40 +1931,30 @@
       };
 
       sendToGoogleSheets(data);
-
-      showToast("✅ CVs Sent Successfully! List has been cleared.", false);
+      showToast("CVs Sent Successfully! List cleared.", false);
 
       selectedCVs = [];
       updateListBadge();
-      
-      if (document.getElementById("listModal").style.display === "flex") {
-        renderListModal();
-      }
-      
+      updateDeleteMainCount();
+      if (document.getElementById("listModal").style.display === "flex") renderListModal();
       closePhoneModal();
-      
-      var allBtns = document.querySelectorAll("#slidesViewport .btn-add-cv");
-      for (var j = 0; j < allBtns.length; j++) {
-        var btn = allBtns[j];
-        btn.className = "btn-add-cv";
-        btn.innerText = "+ Add";
+
+      var allAddBtns = document.querySelectorAll(".btn-add-top");
+      for (var j = 0; j < allAddBtns.length; j++) {
+        allAddBtns[j].className = "btn-add-top";
+        allAddBtns[j].innerText = "+ Add";
       }
     }
 
-    // ========== KEYBOARD SHORTCUTS ==========
+    // KEYBOARD
     document.addEventListener("keydown", function(e) {
       if (e.key === "Escape") {
-        if (document.getElementById("phoneModal").style.display === "flex") {
-          closePhoneModal();
-        } else if (document.getElementById("listModal").style.display === "flex") {
-          closeListModal();
-        } else if (document.getElementById("cvModal").style.display === "flex") {
-          closeModal();
-        }
+        if (document.getElementById("phoneModal").style.display === "flex") closePhoneModal();
+        else if (document.getElementById("listModal").style.display === "flex") closeListModal();
+        else if (document.getElementById("cvModal").style.display === "flex") closeModal();
       }
     });
 
-    // ========== INIT ON LOAD ==========
     window.onload = checkAuth;
   </script>
 </body>
