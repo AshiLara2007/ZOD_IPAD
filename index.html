@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link rel="shortcut icon" href="https://github.com/AshiLara2007/ZOD_IPAD/blob/main/logo.jpeg?raw=true" type="image/x-icon">
   <title>ZOD Manpower CV System</title>
 
   <style>
@@ -438,6 +439,7 @@
       -webkit-box-pack: justify;
       -webkit-justify-content: space-between;
       justify-content: space-between;
+      flex-shrink: 0;
     }
     .btn-back {
       background-color: #334155;
@@ -481,7 +483,68 @@
       background-color: #16a34a;
     }
 
-    /* Gallery Slider */
+    /* ====== FILTER BAR STYLES ====== */
+    .filter-bar {
+      background-color: #1e293b;
+      border-bottom: 1px solid #334155;
+      padding: 10px 16px;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .filter-select {
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: #ffffff;
+      outline: none;
+      cursor: pointer;
+      min-width: 100px;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px top 50%;
+      background-size: 10px auto;
+      padding-right: 28px;
+    }
+    .filter-select:focus {
+      border-color: #007aff;
+    }
+    .filter-select option {
+      background-color: #1e293b;
+      color: #ffffff;
+    }
+    .btn-clear-filters {
+      background-color: #334155;
+      color: #ffffff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-clear-filters:active {
+      background-color: #475569;
+    }
+    .filter-count {
+      color: #94a3b8;
+      font-size: 12px;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    /* Gallery Container */
     .gallery-container {
       -webkit-box-flex: 1;
       -webkit-flex: 1;
@@ -691,6 +754,7 @@
       display: flex;
       gap: 10px;
       border-top: 1px solid #1e293b;
+      flex-shrink: 0;
     }
     .list-actions .btn-send {
       -webkit-box-flex: 1;
@@ -981,7 +1045,7 @@
     </div>
   </div>
 
-  <!-- ================= CV VIEWER MODAL ================= -->
+  <!-- ================= CV VIEWER MODAL (WITH FILTERS) ================= -->
   <div id="cvModal" class="modal-overlay">
     <div class="modal-nav">
       <button onclick="closeModal()" class="btn-back">← Back</button>
@@ -990,6 +1054,37 @@
         <button onclick="addAllFromFolder()" class="btn-add-all">+ Add All</button>
         <div id="modalBadge" class="num-pill">0</div>
       </div>
+    </div>
+
+    <!-- ===== FILTER BAR ===== -->
+    <div class="filter-bar">
+      <select id="filterCountry" class="filter-select" onchange="applyModalFilters()">
+        <option value="">🌍 All Countries</option>
+      </select>
+      <select id="filterReligion" class="filter-select" onchange="applyModalFilters()">
+        <option value="">⛪ All Religions</option>
+      </select>
+      <select id="filterGender" class="filter-select" onchange="applyModalFilters()">
+        <option value="">👤 All Genders</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+      <select id="filterExperience" class="filter-select" onchange="applyModalFilters()">
+        <option value="">📅 All Experience</option>
+        <option value="0-2">0 - 2 Years</option>
+        <option value="2-5">2 - 5 Years</option>
+        <option value="5-10">5 - 10 Years</option>
+        <option value="10+">10+ Years</option>
+      </select>
+      <select id="filterSalary" class="filter-select" onchange="applyModalFilters()">
+        <option value="">💰 All Salaries</option>
+        <option value="0-1000">Below 1000</option>
+        <option value="1000-2000">1000 - 2000</option>
+        <option value="2000-3000">2000 - 3000</option>
+        <option value="3000+">3000+</option>
+      </select>
+      <button onclick="clearModalFilters()" class="btn-clear-filters">✕ Clear</button>
+      <span id="filterCount" class="filter-count"></span>
     </div>
 
     <div id="slidesViewport" class="gallery-container">
@@ -1077,17 +1172,14 @@
         toast.classList.add("error");
       }
       
-      // Clear any existing timeout
       if (window.toastTimeout) {
         clearTimeout(window.toastTimeout);
       }
       
-      // Show with slight delay for animation
       setTimeout(function() {
         toast.classList.add("show");
       }, 50);
       
-      // Auto hide after 4 seconds
       window.toastTimeout = setTimeout(function() {
         toast.classList.remove("show");
       }, 4000);
@@ -1098,9 +1190,15 @@
     var SUPABASE_KEY = "sb_publishable_U289_qf4pkGHp-G1C4kX5w_2bztcmOg";
 
     // ========== DATA ==========
+    // 🔥 UPDATED: Added "Nannie" to map to "Baby Sitter"
     var JOB_LABELS = {
       "House Maid": "Housemaid",
+      "Housemaid": "Housemaid",
       "Baby sitting": "Baby Sitter",
+      "Babysitter": "Baby Sitter",
+      "Baby Sitter": "Baby Sitter",
+      "Nanny": "Baby Sitter",
+      "Nannie": "Baby Sitter",  // <--- NEW ENTRY
       "Domestic Worker": "Domestic Worker",
       "Driver": "Driver",
       "Cook": "Cook",
@@ -1170,7 +1268,7 @@
       return list.sort();
     }
 
-    // ========== FILTER FOLDERS ==========
+    // ===================== FILTER FOLDERS (MAIN DASHBOARD) =====================
     function filterFolders() {
       var q = document.getElementById("searchInput").value.toLowerCase().trim();
 
@@ -1193,13 +1291,29 @@
         }
       ];
 
-      var jobs = getUniqueKeys(talents, 'job').map(function(j) {
-        return {
-          label: JOB_LABELS[j] || j,
+      // JOBS - Normalized (Now includes "Nannie")
+      var jobMap = {};
+      for (var i = 0; i < talents.length; i++) {
+        var job = talents[i].job;
+        if (job) {
+          var normalized = JOB_LABELS[job] || job;
+          if (!jobMap[normalized]) {
+            jobMap[normalized] = [];
+          }
+          jobMap[normalized].push(job);
+        }
+      }
+
+      var jobs = [];
+      for (var key in jobMap) {
+        jobs.push({
+          label: key,
           icon: SVG_BRIEFCASE,
-          talents: talents.filter(function(t) { return t.job === j; })
-        };
-      });
+          talents: talents.filter(function(t) {
+            return jobMap[key].indexOf(t.job) !== -1;
+          })
+        });
+      }
 
       var countries = getUniqueKeys(talents, 'country').map(function(c) {
         return {
@@ -1268,67 +1382,161 @@
       }
     }
 
-    // ========== OPEN MODAL ==========
+    // ========== MODAL RENDERING & FILTERS ==========
     function openModal(folder) {
       currentFolderTalents = folder.talents;
       document.getElementById("modalTitle").innerText = folder.label;
       document.getElementById("modalBadge").innerText = folder.talents.length + " CVs";
-      var vp = document.getElementById("slidesViewport");
-      vp.innerHTML = "";
 
-      if (folder.talents.length === 0) {
-        vp.innerHTML = '<div class="status-msg">No CVs found in this folder</div>';
-      } else {
-        for (var i = 0; i < folder.talents.length; i++) {
-          var c = folder.talents[i];
-          var cvUrl = c.cv || c.cv_url || c.cvUrl || "";
+      populateFilterOptions('filterCountry', 'country');
+      populateFilterOptions('filterReligion', 'religion');
+      
+      document.getElementById('filterGender').value = '';
+      document.getElementById('filterExperience').value = '';
+      document.getElementById('filterSalary').value = '';
 
-          var slide = document.createElement("div");
-          slide.className = "cv-slide-box";
-
-          var imgHtml = "";
-          var linkHtml = "";
-
-          if (cvUrl !== "") {
-            imgHtml = '<img src="' + cvUrl + '" alt="CV" onerror="this.onerror=null; this.parentNode.innerHTML=\'<div class=\\\’img-error-box\\\’>Unable to display image preview.<br><br><a href=\\\'' + cvUrl + '\\\’ target=\\\'_blank\\\’ style=\\\’color:#007aff; font-weight:bold;\\\’>Click here to view original CV</a></div>\';" />';
-            linkHtml = '<a href="' + cvUrl + '" target="_blank" class="btn-open-link">Open Original</a>';
-          } else {
-            imgHtml = '<div class="img-error-box">No CV Image URL attached</div>';
-          }
-
-          var nameText = c.name || c.candidate_name || 'Unnamed Candidate';
-          var jobText = c.job || c.job_role || 'N/A';
-          var expText = c.experience || c.exp || 'N/A';
-          var countryText = c.country || 'N/A';
-
-          var isAdded = selectedCVs.some(function(item) {
-            return item.id === c.id;
-          });
-
-          slide.innerHTML = 
-            '<div class="cv-image-frame">' +
-              imgHtml +
-              '<span class="tag-counter">' + (i + 1) + ' / ' + folder.talents.length + '</span>' +
-              linkHtml +
-            '</div>' +
-            '<div class="cv-footer">' +
-              '<div class="cv-info">' +
-                '<div class="cv-info-name">' + nameText + '</div>' +
-                '<div class="cv-info-detail">' + jobText + ' • Exp: ' + expText + ' • ' + countryText + '</div>' +
-              '</div>' +
-              '<button class="btn-add-cv' + (isAdded ? ' added' : '') + '" onclick="toggleAddCV(' + i + ', this)">' + 
-                (isAdded ? '✓ Added' : '+ Add') +
-              '</button>' +
-            '</div>';
-
-          slide.dataset.index = i;
-          vp.appendChild(slide);
-        }
-      }
-
+      applyModalFilters();
+      
       var modal = document.getElementById("cvModal");
       modal.style.display = "-webkit-flex";
       modal.style.display = "flex";
+    }
+
+    function populateFilterOptions(selectId, key) {
+      var select = document.getElementById(selectId);
+      var currentVal = select.value;
+      select.innerHTML = '<option value="">All ' + key.charAt(0).toUpperCase() + key.slice(1) + 's</option>';
+      
+      var uniqueValues = {};
+      for (var i = 0; i < currentFolderTalents.length; i++) {
+        var val = currentFolderTalents[i][key];
+        if (val && typeof val === 'string' && val.trim() !== '') {
+          uniqueValues[val.trim()] = true;
+        }
+      }
+      var sorted = Object.keys(uniqueValues).sort();
+      for (var j = 0; j < sorted.length; j++) {
+        var option = document.createElement('option');
+        option.value = sorted[j];
+        option.textContent = sorted[j];
+        select.appendChild(option);
+      }
+      if (currentVal) {
+        select.value = currentVal;
+      }
+    }
+
+    function applyModalFilters() {
+      var country = document.getElementById('filterCountry').value;
+      var religion = document.getElementById('filterReligion').value;
+      var gender = document.getElementById('filterGender').value;
+      var expRange = document.getElementById('filterExperience').value;
+      var salaryRange = document.getElementById('filterSalary').value;
+
+      var filtered = currentFolderTalents.filter(function(c) {
+        if (country && (c.country || '').trim() !== country) return false;
+        if (religion && (c.religion || '').trim() !== religion) return false;
+        if (gender) {
+          var cGender = c.gender || c.sex || '';
+          if (cGender.trim() !== gender) return false;
+        }
+        if (expRange) {
+          var expVal = c.experience || c.exp || '0';
+          var num = parseFloat(expVal);
+          if (isNaN(num)) num = 0;
+          var parts = expRange.split('-');
+          if (expRange === '10+') {
+            if (num < 10) return false;
+          } else {
+            var min = parseFloat(parts[0]);
+            var max = parseFloat(parts[1]);
+            if (num < min || num > max) return false;
+          }
+        }
+        if (salaryRange) {
+          var salVal = c.salary || c.expected_salary || '0';
+          var salNum = parseFloat(salVal);
+          if (isNaN(salNum)) salNum = 0;
+          var parts2 = salaryRange.split('-');
+          if (salaryRange === '3000+') {
+            if (salNum < 3000) return false;
+          } else {
+            var min2 = parseFloat(parts2[0]);
+            var max2 = parseFloat(parts2[1]);
+            if (salNum < min2 || salNum > max2) return false;
+          }
+        }
+        return true;
+      });
+
+      renderSlides(filtered);
+      document.getElementById('filterCount').innerText = filtered.length + ' / ' + currentFolderTalents.length + ' shown';
+    }
+
+    function clearModalFilters() {
+      document.getElementById('filterCountry').value = '';
+      document.getElementById('filterReligion').value = '';
+      document.getElementById('filterGender').value = '';
+      document.getElementById('filterExperience').value = '';
+      document.getElementById('filterSalary').value = '';
+      applyModalFilters();
+    }
+
+    function renderSlides(talentsToShow) {
+      var vp = document.getElementById("slidesViewport");
+      vp.innerHTML = "";
+
+      if (talentsToShow.length === 0) {
+        vp.innerHTML = '<div class="status-msg">No CVs match the selected filters.</div>';
+        return;
+      }
+
+      for (var i = 0; i < talentsToShow.length; i++) {
+        var c = talentsToShow[i];
+        var cvUrl = c.cv || c.cv_url || c.cvUrl || "";
+
+        var slide = document.createElement("div");
+        slide.className = "cv-slide-box";
+
+        var imgHtml = "";
+        var linkHtml = "";
+
+        if (cvUrl !== "") {
+          imgHtml = '<img src="' + cvUrl + '" alt="CV" onerror="this.onerror=null; this.parentNode.innerHTML=\'<div class=\\\'img-error-box\\\'>Unable to display image preview.<br><br><a href=\\\'' + cvUrl + '\\\' target=\\\'_blank\\\' style=\\\'color:#007aff; font-weight:bold;\\\'>Click here to view original CV</a></div>\';" />';
+          linkHtml = '<a href="' + cvUrl + '" target="_blank" class="btn-open-link">Open Original</a>';
+        } else {
+          imgHtml = '<div class="img-error-box">No CV Image URL attached</div>';
+        }
+
+        var nameText = c.name || c.candidate_name || 'Unnamed Candidate';
+        var jobText = c.job || c.job_role || 'N/A';
+        var expText = c.experience || c.exp || 'N/A';
+        var countryText = c.country || 'N/A';
+
+        var isAdded = selectedCVs.some(function(item) {
+          return item.id === c.id;
+        });
+
+        slide.innerHTML = 
+          '<div class="cv-image-frame">' +
+            imgHtml +
+            '<span class="tag-counter">' + (i + 1) + ' / ' + talentsToShow.length + '</span>' +
+            linkHtml +
+          '</div>' +
+          '<div class="cv-footer">' +
+            '<div class="cv-info">' +
+              '<div class="cv-info-name">' + nameText + '</div>' +
+              '<div class="cv-info-detail">' + jobText + ' • Exp: ' + expText + ' • ' + countryText + '</div>' +
+            '</div>' +
+            '<button class="btn-add-cv' + (isAdded ? ' added' : '') + '" onclick="toggleAddCV(' + i + ', this)">' + 
+              (isAdded ? '✓ Added' : '+ Add') +
+            '</button>' +
+          '</div>';
+
+        slide.dataset.index = i;
+        slide.dataset.id = c.id;
+        vp.appendChild(slide);
+      }
     }
 
     function closeModal() {
@@ -1337,7 +1545,18 @@
 
     // ========== ADD / REMOVE CV ==========
     function toggleAddCV(index, btn) {
-      var cv = currentFolderTalents[index];
+      var slides = document.getElementById("slidesViewport").querySelectorAll('.cv-slide-box');
+      if (index >= slides.length) return;
+      var slide = slides[index];
+      var cvId = slide.dataset.id;
+      
+      var cv = null;
+      for (var i = 0; i < currentFolderTalents.length; i++) {
+        if (currentFolderTalents[i].id == cvId) {
+          cv = currentFolderTalents[i];
+          break;
+        }
+      }
       if (!cv) return;
 
       var existingIndex = selectedCVs.findIndex(function(item) {
@@ -1377,16 +1596,13 @@
         var btn = allBtns[j];
         var slide = btn.closest(".cv-slide-box");
         if (slide) {
-          var idx = parseInt(slide.dataset.index);
-          if (!isNaN(idx)) {
-            var cvItem = currentFolderTalents[idx];
-            var isAdded = selectedCVs.some(function(item) {
-              return item.id === cvItem.id;
-            });
-            if (isAdded) {
-              btn.className = "btn-add-cv added";
-              btn.innerText = "✓ Added";
-            }
+          var cvId = slide.dataset.id;
+          var isAdded = selectedCVs.some(function(item) {
+            return item.id == cvId;
+          });
+          if (isAdded) {
+            btn.className = "btn-add-cv added";
+            btn.innerText = "✓ Added";
           }
         }
       }
@@ -1488,7 +1704,7 @@
       });
     }
 
-    // ========== SUBMIT PHONE (UPDATED) ==========
+    // ========== SUBMIT PHONE ==========
     function submitPhone() {
       var phone = document.getElementById("phoneInput").value.trim();
       if (phone === "") {
@@ -1496,7 +1712,6 @@
         return;
       }
 
-      // Prepare data
       var data = {
         phone: phone,
         cvs: selectedCVs.map(function(c) {
@@ -1509,27 +1724,19 @@
         timestamp: new Date().toISOString()
       };
 
-      // Send to Google Sheets
       sendToGoogleSheets(data);
 
-      // Show success Toast Notification
       showToast("✅ CVs Sent Successfully! List has been cleared.", false);
 
-      // **** CLEAR THE ADDED LIST COMPLETELY ****
       selectedCVs = [];
-      
-      // Update the badge count in header
       updateListBadge();
       
-      // If List Modal is open, refresh it to show empty state
       if (document.getElementById("listModal").style.display === "flex") {
         renderListModal();
       }
       
-      // Close the phone modal
       closePhoneModal();
       
-      // Also reset any "Added" buttons in the CV viewer modal
       var allBtns = document.querySelectorAll("#slidesViewport .btn-add-cv");
       for (var j = 0; j < allBtns.length; j++) {
         var btn = allBtns[j];
