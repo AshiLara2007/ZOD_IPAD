@@ -1887,10 +1887,11 @@
       }
     }
 
-    // ========== sendCVsToBackend ==========
+    // ========== sendCVsToBackend (ngrok URL) ==========
     function sendCVsToBackend(phoneNumber, cvIds) {
       return new Promise(function(resolve, reject) {
-        var backendUrl = 'http://localhost:5000/send-cvs';
+        // 🔥 ඔබගේ ngrok URL එක මෙහි දමන්න!
+        var backendUrl = 'https://1336-2a04-7f80-30f4-4f00-a5d6-c44a-8b9d-aa7a.ngrok-free.app/send-cvs';
 
         fetch(backendUrl, {
           method: 'POST',
