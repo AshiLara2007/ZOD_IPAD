@@ -1197,10 +1197,10 @@
           <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
         </div>
         <h3>Enter Phone Number</h3>
-        <p>We'll send the selected CVs to your WhatsApp within 30 minutes</p>
-        <input type="text" id="phoneInput" placeholder="+974 1234 5678" maxlength="20" />
+        <p>We'll send the selected CVs to your WhatsApp</p>
+        <input type="tel" id="phoneInput" placeholder="974 1234 5678" maxlength="20" onfocus="handlePhoneFocus()" oninput="handlePhoneInput()" />
         <button onclick="submitPhone()" class="btn-submit-phone">📤 Send Now</button>
-        <div id="phoneSuccess" class="phone-success">✅ Your Ordered CV's will send to your WhatsApp within 30 minutes</div>
+        <div id="phoneSuccess" class="phone-success">✅ Sending...</div>
         <button onclick="closePhoneModal()" class="btn-close-phone">Cancel</button>
       </div>
     </div>
@@ -1329,7 +1329,7 @@
     function normalizeJob(raw) { return JOB_LABELS[raw] || raw; }
     function normalizeReligion(raw) { return RELIGION_LABELS[raw] || raw; }
 
-    // ========== DELETE MAIN - ON MAIN PAGE ==========
+    // ========== DELETE MAIN ==========
     function toggleDeleteMain() {
       var btn = document.getElementById("deleteMainBtn");
       var status = document.getElementById("deleteMainStatus");
@@ -1341,14 +1341,12 @@
       }
 
       if (!deleteModeActive) {
-        // Ask for password first
         var pwd = prompt("Enter Delete Mode Password:");
         if (pwd === null) return;
         if (pwd !== DELETE_PASSWORD) {
           showToast("Incorrect password!", true);
           return;
         }
-        // Activate delete mode
         deleteModeActive = true;
         btn.classList.add("active");
         btn.innerHTML = "🗑️ Delete Selected";
@@ -1356,11 +1354,9 @@
         status.style.color = "#ef4444";
         showToast("Delete Mode ON - Click again to delete all " + selectedCVs.length + " CV(s)!");
       } else {
-        // Delete all selected CVs
         if (!confirm("⚠️ Are you sure you want to permanently delete " + selectedCVs.length + " CV(s)? This cannot be undone!")) {
           return;
         }
-
         deleteAllSelectedCVs();
       }
     }
@@ -1406,7 +1402,6 @@
           }
         }
 
-        // Remove deleted from local talents array
         for (var j = idsToDelete.length - 1; j >= 0; j--) {
           var idToRemove = idsToDelete[j];
           for (var k = talents.length - 1; k >= 0; k--) {
@@ -1417,14 +1412,10 @@
           }
         }
 
-        // Clear selected list
         selectedCVs = [];
         updateListBadge();
-
-        // Update total count
         document.getElementById("totalCount").innerText = talents.length;
 
-        // Reset delete mode
         deleteModeActive = false;
         var btn = document.getElementById("deleteMainBtn");
         btn.classList.remove("active");
@@ -1433,14 +1424,11 @@
         document.getElementById("deleteMainStatus").style.color = "#94a3b8";
         document.getElementById("deleteMainCount").innerText = "0 selected";
 
-        // Update folder counts
         filterFolders();
-
         showToast("✅ " + deleted + " CV(s) deleted successfully!" + (failed > 0 ? " (" + failed + " failed)" : ""));
       });
     }
 
-    // Update delete count on main page
     function updateDeleteMainCount() {
       var count = document.getElementById("deleteMainCount");
       count.innerText = selectedCVs.length + " selected";
@@ -1739,7 +1727,6 @@
       document.getElementById("cvModal").style.display = "none";
     }
 
-    // ADD / REMOVE CV
     function toggleAddCV(cvId, btn) {
       var cv = null;
       for (var i = 0; i < currentFolderTalents.length; i++) {
@@ -1880,6 +1867,137 @@
       }
     }
 
+    // ========== PHONE AUTO-FILL 974 ==========
+    function handlePhoneFocus() {
+      var input = document.getElementById('phoneInput');
+      if (input.value === '') {
+        input.value = '974';
+      }
+      input.setSelectionRange(input.value.length, input.value.length);
+    }
+
+    function handlePhoneInput() {
+      var input = document.getElementById('phoneInput');
+      var numbers = input.value.replace(/[^0-9]/g, '');
+      if (numbers.length < 3) {
+        input.value = '974';
+      } else {
+        var rest = numbers.substring(3);
+        input.value = '974' + rest;
+      }
+    }
+
+    // ========== sendCVsToBackend ==========
+    function sendCVsToBackend(phoneNumber, cvIds) {
+      return new Promise(function(resolve, reject) {
+        var backendUrl = 'http://localhost:5000/send-cvs';
+
+        fetch(backendUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            cvIds: cvIds,
+            phoneNumber: phoneNumber
+          })
+        })
+        .then(function(response) {
+          if (!response.ok) {
+            return response.json().then(function(err) {
+              reject(new Error(err.error || 'Server error (Status: ' + response.status + ')'));
+            });
+          }
+          return response.json();
+        })
+        .then(function(data) {
+          resolve(data);
+        })
+        .catch(function(error) {
+          reject(error);
+        });
+      });
+    }
+
+    // ========== submitPhone ==========
+    function submitPhone() {
+      var phone = document.getElementById("phoneInput").value.trim();
+      if (phone === "") {
+        showToast("Please enter a phone number.", true);
+        return;
+      }
+
+      if (selectedCVs.length === 0) {
+        showToast("No CVs selected to send.", true);
+        return;
+      }
+
+      var btn = document.querySelector('.btn-submit-phone');
+      var originalText = btn.innerText;
+      btn.innerText = "⏳ Sending...";
+      btn.disabled = true;
+
+      var cvIds = selectedCVs.map(function(c) { return c.id; });
+      var phoneNumber = phone.replace(/[^0-9]/g, '');
+
+      sendCVsToBackend(phoneNumber, cvIds)
+        .then(function(data) {
+          showToast("✅ " + data.message, false);
+          
+          var sheetData = {
+            phone: phone,
+            cvs: selectedCVs.map(function(c) {
+              return {
+                id: c.id,
+                name: c.name || c.candidate_name || "Unnamed",
+                cv: c.cv || c.cv_url || c.cvUrl || ""
+              };
+            }),
+            timestamp: new Date().toISOString()
+          };
+          sendToGoogleSheets(sheetData);
+          
+          selectedCVs = [];
+          updateListBadge();
+          updateDeleteMainCount();
+          
+          closePhoneModal();
+          if (document.getElementById("listModal").style.display === "flex") {
+            renderListModal();
+          }
+          
+          var allAddBtns = document.querySelectorAll(".btn-add-top");
+          for (var j = 0; j < allAddBtns.length; j++) {
+            allAddBtns[j].className = "btn-add-top";
+            allAddBtns[j].innerText = "+ Add";
+          }
+          
+          btn.innerText = originalText;
+          btn.disabled = false;
+        })
+        .catch(function(error) {
+          console.error('Error:', error);
+          showToast("❌ " + error.message, true);
+          btn.innerText = originalText;
+          btn.disabled = false;
+        });
+    }
+
+    // ========== Google Sheets ==========
+    function sendToGoogleSheets(data) {
+      var url = "https://script.google.com/macros/s/AKfycbxuvPgWbZR_m4Xg_uHpQ1RxQQQQ8kmJZAv6_5zRHLZwb8wWHnxXUvwm6OPH-M_bK8sqnA/exec";
+      fetch(url, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      }).then(function(res) {
+        console.log("Data sent to Google Sheets:", data);
+      }).catch(function(err) {
+        console.error("Error sending to Google Sheets:", err);
+      });
+    }
+
     // PHONE MODAL
     function openPhoneModal() {
       if (selectedCVs.length === 0) {
@@ -1895,55 +2013,6 @@
 
     function closePhoneModal() {
       document.getElementById("phoneModal").style.display = "none";
-    }
-
-    function sendToGoogleSheets(data) {
-      var url = "https://script.google.com/macros/s/AKfycbxuvPgWbZR_m4Xg_uHpQ1RxQQQQ8kmJZAv6_5zRHLZwb8wWHnxXUvwm6OPH-M_bK8sqnA/exec";
-      fetch(url, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      }).then(function(res) {
-        console.log("Data sent to Google Sheets:", data);
-      }).catch(function(err) {
-        console.error("Error sending to Google Sheets:", err);
-      });
-    }
-
-    function submitPhone() {
-      var phone = document.getElementById("phoneInput").value.trim();
-      if (phone === "") {
-        showToast("Please enter a phone number.", true);
-        return;
-      }
-
-      var data = {
-        phone: phone,
-        cvs: selectedCVs.map(function(c) {
-          return {
-            id: c.id,
-            name: c.name || c.candidate_name || "Unnamed",
-            cv: c.cv || c.cv_url || c.cvUrl || ""
-          };
-        }),
-        timestamp: new Date().toISOString()
-      };
-
-      sendToGoogleSheets(data);
-      showToast("CVs Sent Successfully! List cleared.", false);
-
-      selectedCVs = [];
-      updateListBadge();
-      updateDeleteMainCount();
-      if (document.getElementById("listModal").style.display === "flex") renderListModal();
-      closePhoneModal();
-
-      var allAddBtns = document.querySelectorAll(".btn-add-top");
-      for (var j = 0; j < allAddBtns.length; j++) {
-        allAddBtns[j].className = "btn-add-top";
-        allAddBtns[j].innerText = "+ Add";
-      }
     }
 
     // KEYBOARD
