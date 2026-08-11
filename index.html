@@ -598,9 +598,6 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
-    .btn-clear-filters:active {
-      background-color: #475569;
-    }
     .filter-count {
       color: #94a3b8;
       font-size: 10px;
@@ -981,7 +978,7 @@
       display: none;
     }
 
-    /* 🔥 PROGRESS BAR STYLES */
+    /* PROGRESS BAR STYLES */
     .progress-container {
       margin: 12px 0;
       width: 100%;
@@ -1203,6 +1200,14 @@
         <option value="2000-3000">2000-3000</option>
         <option value="3000+">3000+</option>
       </select>
+      
+      <!-- 🔥 NEW: Worker Type Filter -->
+      <select id="filterWorkerType" class="filter-select" onchange="applyModalFilters()">
+        <option value="">👷 Worker Type</option>
+        <option value="Recruitment Workers">Recruitment</option>
+        <option value="Returned Housemaids">Returned</option>
+      </select>
+      
       <button onclick="clearModalFilters()" class="btn-clear-filters">✕</button>
       <span id="filterCount" class="filter-count"></span>
     </div>
@@ -1241,7 +1246,6 @@
         <p>We'll send the selected CVs to your WhatsApp</p>
         <input type="tel" id="phoneInput" placeholder="974 1234 5678" maxlength="20" onfocus="handlePhoneFocus()" oninput="handlePhoneInput()" />
         
-        <!-- 🔥 PROGRESS BAR -->
         <div id="progressContainer" class="progress-container">
           <div class="progress-bar-track">
             <div id="progressBarFill" class="progress-bar-fill" style="width: 0%;"></div>
@@ -1354,6 +1358,7 @@
     var selectedCVs = [];
     var currentFolderTalents = [];
     var deleteModeActive = false;
+    var filteredCVs = [];
 
     // INIT
     function initData() {
@@ -1622,13 +1627,16 @@
     // MODAL FUNCTIONS
     function openModal(folder) {
       currentFolderTalents = folder.talents;
+      filteredCVs = [];
       document.getElementById("modalTitle").innerText = folder.label;
       document.getElementById("modalBadge").innerText = folder.talents.length + " CVs";
 
       populateFilterOptions('filterJob', 'job', normalizeJob);
       populateFilterOptions('filterCountry', 'country', function(v) { return v; });
       populateFilterOptions('filterReligion', 'religion', normalizeReligion);
-
+      
+      // Reset worker type filter when opening modal
+      document.getElementById('filterWorkerType').value = '';
       document.getElementById('filterGender').value = '';
       document.getElementById('filterExperience').value = '';
       document.getElementById('filterSalary').value = '';
@@ -1675,6 +1683,7 @@
       if (currentVal) select.value = currentVal;
     }
 
+    // 🔥 Updated applyModalFilters - includes workerType
     function applyModalFilters() {
       var job = document.getElementById('filterJob').value;
       var country = document.getElementById('filterCountry').value;
@@ -1682,6 +1691,7 @@
       var gender = document.getElementById('filterGender').value;
       var expRange = document.getElementById('filterExperience').value;
       var salaryRange = document.getElementById('filterSalary').value;
+      var workerType = document.getElementById('filterWorkerType').value; // 🔥 New
 
       var filtered = currentFolderTalents.filter(function(c) {
         if (job) {
@@ -1727,9 +1737,16 @@
             if (salNum < min2 || salNum > max2) return false;
           }
         }
+        // 🔥 Worker Type Filter
+        if (workerType) {
+          var wType = c.workerType || c.workertype || c.worker_type || "";
+          if (wType !== workerType) return false;
+        }
         return true;
       });
 
+      filteredCVs = filtered;
+      
       renderSlides(filtered);
       document.getElementById('filterCount').innerText = filtered.length + ' / ' + currentFolderTalents.length + ' shown';
     }
@@ -1741,6 +1758,7 @@
       document.getElementById('filterGender').value = '';
       document.getElementById('filterExperience').value = '';
       document.getElementById('filterSalary').value = '';
+      document.getElementById('filterWorkerType').value = ''; // 🔥 Clear worker type too
       applyModalFilters();
     }
 
@@ -1831,14 +1849,22 @@
       updateDeleteMainCount();
     }
 
+    // 🔥 Updated addAllFromFolder - uses filteredCVs
     function addAllFromFolder() {
-      if (currentFolderTalents.length === 0) return;
+      var cvsToAdd = filteredCVs.length > 0 ? filteredCVs : currentFolderTalents;
+      
+      if (cvsToAdd.length === 0) {
+        showToast("No CVs to add!", true);
+        return;
+      }
 
-      for (var i = 0; i < currentFolderTalents.length; i++) {
-        var cv = currentFolderTalents[i];
+      var addedCount = 0;
+      for (var i = 0; i < cvsToAdd.length; i++) {
+        var cv = cvsToAdd[i];
         var existingIndex = selectedCVs.findIndex(function(item) { return item.id === cv.id; });
         if (existingIndex === -1) {
           selectedCVs.push(cv);
+          addedCount++;
         }
       }
 
@@ -1859,7 +1885,8 @@
       updateListBadge();
       document.getElementById("modalBadge").innerText = currentFolderTalents.length + " CVs";
       updateDeleteMainCount();
-      showToast("All CVs added to list!");
+      
+      showToast(addedCount + " CV(s) added to list!");
     }
 
     function updateListBadge() {
@@ -1964,7 +1991,7 @@
       }
     }
 
-    // ========== 🔥 sendCVsToBackend with Progress ==========
+    // ========== sendCVsToBackend ==========
     function sendCVsToBackend(phoneNumber, cvIds) {
       return new Promise(function(resolve, reject) {
         var backendUrl = 'https://zod-cv-backend.onrender.com/send-cvs';
@@ -1996,7 +2023,7 @@
       });
     }
 
-    // ========== 🔥 submitPhone with Progress Bar ==========
+    // ========== submitPhone ==========
     function submitPhone() {
       var phone = document.getElementById("phoneInput").value.trim();
       if (phone === "") {
@@ -2017,7 +2044,6 @@
       var cvIds = selectedCVs.map(function(c) { return c.id; });
       var phoneNumber = phone.replace(/[^0-9]/g, '');
 
-      // 🔥 Show Progress Bar
       var progressContainer = document.getElementById('progressContainer');
       var progressFill = document.getElementById('progressBarFill');
       var progressStatus = document.getElementById('progressStatus');
@@ -2028,11 +2054,9 @@
       progressStatus.textContent = 'Initializing...';
       progressPercentage.textContent = '0%';
 
-      // 🔥 Send Request
       sendCVsToBackend(phoneNumber, cvIds)
         .then(function(data) {
           if (data.task_id) {
-            // 🔥 Start listening to progress
             listenToProgress(data.task_id);
           } else {
             showToast("✅ " + data.message, false);
@@ -2046,7 +2070,6 @@
         });
     }
 
-    // ========== 🔥 Listen to Progress Events (SSE) ==========
     function listenToProgress(taskId) {
       var eventSource = new EventSource('https://zod-cv-backend.onrender.com/progress/' + taskId);
       
@@ -2057,7 +2080,6 @@
         var error = data.error || false;
         var success = data.success || false;
 
-        // Update Progress Bar
         var progressFill = document.getElementById('progressBarFill');
         var progressStatus = document.getElementById('progressStatus');
         var progressPercentage = document.getElementById('progressPercentage');
@@ -2066,7 +2088,6 @@
         progressStatus.textContent = status;
         progressPercentage.textContent = progress + '%';
 
-        // If progress reaches 100% or error/success
         if (progress >= 100 || error || success) {
           eventSource.close();
           if (success) {
@@ -2080,7 +2101,6 @@
 
       eventSource.onerror = function() {
         eventSource.close();
-        // Don't show error if we already completed
         var progress = parseInt(document.getElementById('progressPercentage').textContent);
         if (progress < 100) {
           showToast("❌ Connection lost. Please check your internet.", true);
@@ -2089,7 +2109,6 @@
       };
     }
 
-    // ========== 🔥 Reset UI ==========
     function resetUI() {
       var btn = document.querySelector('.btn-submit-phone');
       btn.innerText = "📤 Send Now";
@@ -2101,7 +2120,6 @@
       var progressFill = document.getElementById('progressBarFill');
       progressFill.style.width = '0%';
       
-      // Clear selection
       selectedCVs = [];
       updateListBadge();
       updateDeleteMainCount();
@@ -2117,7 +2135,6 @@
         allAddBtns[j].innerText = "+ Add";
       }
       
-      // Google Sheets logging
       var sheetData = {
         phone: document.getElementById("phoneInput").value.trim(),
         cvs: selectedCVs.map(function(c) {
@@ -2132,7 +2149,6 @@
       sendToGoogleSheets(sheetData);
     }
 
-    // ========== Google Sheets ==========
     function sendToGoogleSheets(data) {
       var url = "https://script.google.com/macros/s/AKfycbxuvPgWbZR_m4Xg_uHpQ1RxQQQQ8kmJZAv6_5zRHLZwb8wWHnxXUvwm6OPH-M_bK8sqnA/exec";
       fetch(url, {
@@ -2147,7 +2163,6 @@
       });
     }
 
-    // PHONE MODAL
     function openPhoneModal() {
       if (selectedCVs.length === 0) {
         showToast("Please add at least one CV to send.", true);
