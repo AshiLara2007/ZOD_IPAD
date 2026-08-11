@@ -1267,17 +1267,38 @@
       "Nurse": "Nurse"
     };
 
+    // 🔥 FINAL RELIGION_LABELS - Christian + Non-Muslim → Christian
     var RELIGION_LABELS = {
-      "CATHOLIC": "Catholic",
-      "R.CATHOLIC": "Catholic",
+      // Christian variants - සියල්ල Christian ලෙස
       "CHRISTIAN": "Christian",
-      "CHRSTIN": "Christian",
+      "CHRISTAN": "Christian",
+      "CHRISTINE": "Christian",
+      "CHRISTIN": "Christian",
+      "CHRSTIAN": "Christian",
+      "CHRSTIN": "Christian",      // typo එක Christian ලෙස
+      "CHRISSTIAN": "Christian",
+      "Catholic": "Christian",
+      "CATHOLIC": "Christian",
+      "R.CATHOLIC": "Christian",
+      
+      // 🔥 Non-Muslim variants - Christian ලෙස
+      "NON MUSLIM": "Christian",
+      "NON NMUSLIM": "Christian",
+      "NON- MUSLIM": "Christian",
+      "NON-MUSLIM": "Christian",
+      "NON- ISLAM": "Christian",
+      "NON-MOSLEM": "Christian",
+      "NONMUSLIM": "Christian",
+      
+      // Muslim variants
       "MUSLIM": "Muslim",
-      "Muslim": "Muslim",
-      "NON MUSLIM": "Non-Muslim",
-      "NON- MUSLIM": "Non-Muslim",
-      "NON-MUSLIM": "Non-Muslim",
-      "NON- ISLAM": "Non-Muslim"
+      "MUSILM": "Muslim",
+      "MOSLEM": "Muslim",
+      "ISLAM": "Muslim",
+      "MORMONS": "Muslim",
+      
+      // Others
+      "TAMIL": "Tamil"
     };
 
     var SVG_FOLDER = '<svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>';
@@ -1553,7 +1574,7 @@
       }
     }
 
-    // MODAL FUNCTIONS
+    // MODAL FUNCTIONS - UPDATED with duplicate prevention
     function openModal(folder) {
       currentFolderTalents = folder.talents;
       document.getElementById("modalTitle").innerText = folder.label;
@@ -1581,20 +1602,31 @@
       select.innerHTML = '<option value="">' + defaultLabel + '</option>';
 
       var uniqueValues = {};
+      var seenValues = {};
+      
       for (var i = 0; i < currentFolderTalents.length; i++) {
         var rawVal = currentFolderTalents[i][key];
         if (rawVal && typeof rawVal === 'string' && rawVal.trim() !== '') {
           var normVal = normalizeFn ? normalizeFn(rawVal.trim()) : rawVal.trim();
-          if (normVal) uniqueValues[normVal] = true;
+          var lowerKey = normVal ? normVal.toLowerCase() : '';
+          if (normVal && !seenValues[lowerKey]) {
+            seenValues[lowerKey] = true;
+            uniqueValues[normVal] = true;
+          }
         }
       }
-      var sorted = Object.keys(uniqueValues).sort();
+      
+      var sorted = Object.keys(uniqueValues).sort(function(a, b) {
+        return a.localeCompare(b);
+      });
+      
       for (var j = 0; j < sorted.length; j++) {
         var option = document.createElement('option');
         option.value = sorted[j];
         option.textContent = sorted[j];
         select.appendChild(option);
       }
+      
       if (currentVal) select.value = currentVal;
     }
 
@@ -1887,11 +1919,10 @@
       }
     }
 
-    // ========== sendCVsToBackend (ngrok URL) ==========
+    // ========== sendCVsToBackend ==========
     function sendCVsToBackend(phoneNumber, cvIds) {
       return new Promise(function(resolve, reject) {
-        // 🔥 ඔබගේ ngrok URL එක මෙහි දමන්න!
-        var backendUrl = 'https://1336-2a04-7f80-30f4-4f00-a5d6-c44a-8b9d-aa7a.ngrok-free.app/send-cvs';
+        var backendUrl = 'https://zod-cv-backend.onrender.com/send-cvs';
 
         fetch(backendUrl, {
           method: 'POST',
@@ -1906,7 +1937,7 @@
         .then(function(response) {
           if (!response.ok) {
             return response.json().then(function(err) {
-              reject(new Error(err.error || 'Server error (Status: ' + response.status + ')'));
+              reject(new Error(err.detail || err.error || 'Server error (Status: ' + response.status + ')'));
             });
           }
           return response.json();
