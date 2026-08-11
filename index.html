@@ -981,6 +981,47 @@
       display: none;
     }
 
+    /* 🔥 PROGRESS BAR STYLES */
+    .progress-container {
+      margin: 12px 0;
+      width: 100%;
+      display: none;
+    }
+    .progress-container.active {
+      display: block;
+    }
+    .progress-bar-track {
+      width: 100%;
+      height: 8px;
+      background-color: #334155;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+    .progress-percentage {
+      color: #ffffff;
+      font-weight: bold;
+    }
+    .progress-status {
+      color: #e2e8f0;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
     /* TOAST */
     .toast-notification {
       position: fixed;
@@ -1199,6 +1240,18 @@
         <h3>Enter Phone Number</h3>
         <p>We'll send the selected CVs to your WhatsApp</p>
         <input type="tel" id="phoneInput" placeholder="974 1234 5678" maxlength="20" onfocus="handlePhoneFocus()" oninput="handlePhoneInput()" />
+        
+        <!-- 🔥 PROGRESS BAR -->
+        <div id="progressContainer" class="progress-container">
+          <div class="progress-bar-track">
+            <div id="progressBarFill" class="progress-bar-fill" style="width: 0%;"></div>
+          </div>
+          <div class="progress-text">
+            <span id="progressStatus" class="progress-status">Initializing...</span>
+            <span id="progressPercentage" class="progress-percentage">0%</span>
+          </div>
+        </div>
+        
         <button onclick="submitPhone()" class="btn-submit-phone">📤 Send Now</button>
         <div id="phoneSuccess" class="phone-success">✅ Sending...</div>
         <button onclick="closePhoneModal()" class="btn-close-phone">Cancel</button>
@@ -1267,21 +1320,17 @@
       "Nurse": "Nurse"
     };
 
-    // 🔥 FINAL RELIGION_LABELS - Christian + Non-Muslim → Christian
     var RELIGION_LABELS = {
-      // Christian variants - සියල්ල Christian ලෙස
       "CHRISTIAN": "Christian",
       "CHRISTAN": "Christian",
       "CHRISTINE": "Christian",
       "CHRISTIN": "Christian",
       "CHRSTIAN": "Christian",
-      "CHRSTIN": "Christian",      // typo එක Christian ලෙස
+      "CHRSTIN": "Christian",
       "CHRISSTIAN": "Christian",
       "Catholic": "Christian",
       "CATHOLIC": "Christian",
       "R.CATHOLIC": "Christian",
-      
-      // 🔥 Non-Muslim variants - Christian ලෙස
       "NON MUSLIM": "Christian",
       "NON NMUSLIM": "Christian",
       "NON- MUSLIM": "Christian",
@@ -1289,15 +1338,11 @@
       "NON- ISLAM": "Christian",
       "NON-MOSLEM": "Christian",
       "NONMUSLIM": "Christian",
-      
-      // Muslim variants
       "MUSLIM": "Muslim",
       "MUSILM": "Muslim",
       "MOSLEM": "Muslim",
       "ISLAM": "Muslim",
       "MORMONS": "Muslim",
-      
-      // Others
       "TAMIL": "Tamil"
     };
 
@@ -1574,7 +1619,7 @@
       }
     }
 
-    // MODAL FUNCTIONS - UPDATED with duplicate prevention
+    // MODAL FUNCTIONS
     function openModal(folder) {
       currentFolderTalents = folder.talents;
       document.getElementById("modalTitle").innerText = folder.label;
@@ -1919,7 +1964,7 @@
       }
     }
 
-    // ========== sendCVsToBackend ==========
+    // ========== 🔥 sendCVsToBackend with Progress ==========
     function sendCVsToBackend(phoneNumber, cvIds) {
       return new Promise(function(resolve, reject) {
         var backendUrl = 'https://zod-cv-backend.onrender.com/send-cvs';
@@ -1951,7 +1996,7 @@
       });
     }
 
-    // ========== submitPhone ==========
+    // ========== 🔥 submitPhone with Progress Bar ==========
     function submitPhone() {
       var phone = document.getElementById("phoneInput").value.trim();
       if (phone === "") {
@@ -1972,47 +2017,119 @@
       var cvIds = selectedCVs.map(function(c) { return c.id; });
       var phoneNumber = phone.replace(/[^0-9]/g, '');
 
+      // 🔥 Show Progress Bar
+      var progressContainer = document.getElementById('progressContainer');
+      var progressFill = document.getElementById('progressBarFill');
+      var progressStatus = document.getElementById('progressStatus');
+      var progressPercentage = document.getElementById('progressPercentage');
+      
+      progressContainer.classList.add('active');
+      progressFill.style.width = '0%';
+      progressStatus.textContent = 'Initializing...';
+      progressPercentage.textContent = '0%';
+
+      // 🔥 Send Request
       sendCVsToBackend(phoneNumber, cvIds)
         .then(function(data) {
-          showToast("✅ " + data.message, false);
-          
-          var sheetData = {
-            phone: phone,
-            cvs: selectedCVs.map(function(c) {
-              return {
-                id: c.id,
-                name: c.name || c.candidate_name || "Unnamed",
-                cv: c.cv || c.cv_url || c.cvUrl || ""
-              };
-            }),
-            timestamp: new Date().toISOString()
-          };
-          sendToGoogleSheets(sheetData);
-          
-          selectedCVs = [];
-          updateListBadge();
-          updateDeleteMainCount();
-          
-          closePhoneModal();
-          if (document.getElementById("listModal").style.display === "flex") {
-            renderListModal();
+          if (data.task_id) {
+            // 🔥 Start listening to progress
+            listenToProgress(data.task_id);
+          } else {
+            showToast("✅ " + data.message, false);
+            resetUI();
           }
-          
-          var allAddBtns = document.querySelectorAll(".btn-add-top");
-          for (var j = 0; j < allAddBtns.length; j++) {
-            allAddBtns[j].className = "btn-add-top";
-            allAddBtns[j].innerText = "+ Add";
-          }
-          
-          btn.innerText = originalText;
-          btn.disabled = false;
         })
         .catch(function(error) {
           console.error('Error:', error);
           showToast("❌ " + error.message, true);
-          btn.innerText = originalText;
-          btn.disabled = false;
+          resetUI();
         });
+    }
+
+    // ========== 🔥 Listen to Progress Events (SSE) ==========
+    function listenToProgress(taskId) {
+      var eventSource = new EventSource('https://zod-cv-backend.onrender.com/progress/' + taskId);
+      
+      eventSource.onmessage = function(event) {
+        var data = JSON.parse(event.data);
+        var progress = data.progress || 0;
+        var status = data.status || 'Processing...';
+        var error = data.error || false;
+        var success = data.success || false;
+
+        // Update Progress Bar
+        var progressFill = document.getElementById('progressBarFill');
+        var progressStatus = document.getElementById('progressStatus');
+        var progressPercentage = document.getElementById('progressPercentage');
+
+        progressFill.style.width = progress + '%';
+        progressStatus.textContent = status;
+        progressPercentage.textContent = progress + '%';
+
+        // If progress reaches 100% or error/success
+        if (progress >= 100 || error || success) {
+          eventSource.close();
+          if (success) {
+            showToast("✅ CVs sent successfully!", false);
+          } else if (error) {
+            showToast("❌ " + status, true);
+          }
+          resetUI();
+        }
+      };
+
+      eventSource.onerror = function() {
+        eventSource.close();
+        // Don't show error if we already completed
+        var progress = parseInt(document.getElementById('progressPercentage').textContent);
+        if (progress < 100) {
+          showToast("❌ Connection lost. Please check your internet.", true);
+          resetUI();
+        }
+      };
+    }
+
+    // ========== 🔥 Reset UI ==========
+    function resetUI() {
+      var btn = document.querySelector('.btn-submit-phone');
+      btn.innerText = "📤 Send Now";
+      btn.disabled = false;
+      
+      var progressContainer = document.getElementById('progressContainer');
+      progressContainer.classList.remove('active');
+      
+      var progressFill = document.getElementById('progressBarFill');
+      progressFill.style.width = '0%';
+      
+      // Clear selection
+      selectedCVs = [];
+      updateListBadge();
+      updateDeleteMainCount();
+      
+      closePhoneModal();
+      if (document.getElementById("listModal").style.display === "flex") {
+        renderListModal();
+      }
+      
+      var allAddBtns = document.querySelectorAll(".btn-add-top");
+      for (var j = 0; j < allAddBtns.length; j++) {
+        allAddBtns[j].className = "btn-add-top";
+        allAddBtns[j].innerText = "+ Add";
+      }
+      
+      // Google Sheets logging
+      var sheetData = {
+        phone: document.getElementById("phoneInput").value.trim(),
+        cvs: selectedCVs.map(function(c) {
+          return {
+            id: c.id,
+            name: c.name || c.candidate_name || "Unnamed",
+            cv: c.cv || c.cv_url || c.cvUrl || ""
+          };
+        }),
+        timestamp: new Date().toISOString()
+      };
+      sendToGoogleSheets(sheetData);
     }
 
     // ========== Google Sheets ==========
@@ -2038,6 +2155,8 @@
       }
       document.getElementById("phoneInput").value = "";
       document.getElementById("phoneSuccess").style.display = "none";
+      var progressContainer = document.getElementById('progressContainer');
+      progressContainer.classList.remove('active');
       var modal = document.getElementById("phoneModal");
       modal.style.display = "-webkit-flex";
       modal.style.display = "flex";
